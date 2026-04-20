@@ -1,31 +1,31 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { Copy, ExternalLink, Check } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { profileData } from "@/data/PortfolioData";
+import { useClipboard } from "@/hooks/useClipboard";
+import { CopyAlert } from "@/components/ui/CopyAlert";
+
+const emptySubscribe = () => () => {};
 
 export default function ShareLink() {
-  const [copied, setCopied] = useState(false);
+  const { copied, copy } = useClipboard();
   const [showAlert, setShowAlert] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
 
   const displayUrl = mounted ? window.location.host : profileData.websiteUrl.replace(/^https?:\/\//, '');
   const fullUrl = mounted ? window.location.href : profileData.websiteUrl;
 
   const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(fullUrl);
-      setCopied(true);
+    const success = await copy(fullUrl);
+    if (success) {
       setShowAlert(true);
-      setTimeout(() => setCopied(false), 2000);
       setTimeout(() => setShowAlert(false), 3000);
-    } catch (err) {
-      console.error("Failed to copy link", err);
     }
   };
 
@@ -53,15 +53,7 @@ export default function ShareLink() {
         </a>
       </div>
 
-      {showAlert && (
-        <div className="fixed bottom-6 right-6 z-50 w-80 animate-in slide-in-from-bottom-10 fade-in duration-300 sm:bottom-10 sm:right-10">
-          <Alert className="bg-main text-main-foreground shadow-[4px_4px_0px_0px_var(--border)]">
-            <Check className="h-4 w-4 bg-white/20 rounded-full p-0.5" />
-            <AlertTitle>Berhasil disalin!</AlertTitle>
-            <AlertDescription>Link portfolio berhasil disalin ke clipboard.</AlertDescription>
-          </Alert>
-        </div>
-      )}
+      <CopyAlert show={showAlert} description="Link portfolio berhasil disalin ke clipboard." />
     </>
   );
 }

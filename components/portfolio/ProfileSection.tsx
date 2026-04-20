@@ -82,7 +82,7 @@ export default function ProfileSection() {
             </div>
 
             {/* Name */}
-            <h1 className="text-[2rem] leading-[1.05] font-heading text-foreground sm:text-[2.8rem]">
+            <h1 className="text-[2rem] leading-[1.05] font-heading text-foreground sm:text-[2.3rem] md:text-[2.8rem]">
               {profileData.name}
             </h1>
 

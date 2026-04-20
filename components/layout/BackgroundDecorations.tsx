@@ -95,7 +95,7 @@ export default function BackgroundDecorations() {
 
       {/* Right mid: Zigzag/Lightning */}
       <svg
-        className="absolute right-[3%] top-[350px] sm:top-[40%] w-[40px] sm:w-[50px] rotate-6"
+        className="absolute right-[3%] top-[300px] sm:top-[40%] w-[40px] sm:w-[50px] rotate-6"
         viewBox="0 0 50 80"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

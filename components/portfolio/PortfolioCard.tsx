@@ -5,15 +5,15 @@ import { Play } from "lucide-react";
 interface PortfolioCardProps {
   item: PortfolioItem;
   index: number;
+  onClick: (item: PortfolioItem) => void;
 }
 
-export default function PortfolioCard({ item, index }: PortfolioCardProps) {
+export default function PortfolioCard({ item, index, onClick }: PortfolioCardProps) {
   return (
-    <a
-      href={item.youtubeUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="portfolio-card group block overflow-hidden rounded-base border-2 border-border bg-secondary-background shadow-shadow transition-all hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none"
+    <button
+      type="button"
+      onClick={() => onClick(item)}
+      className="portfolio-card w-full text-left group block overflow-hidden rounded-base border-2 border-border bg-secondary-background shadow-shadow transition-all hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none"
       style={{ animationDelay: `${index * 80}ms` }}
       id={`portfolio-item-${item.id}`}
     >
@@ -31,8 +31,6 @@ export default function PortfolioCard({ item, index }: PortfolioCardProps) {
           <div className="absolute inset-0 bg-gradient-to-br from-main/30 via-background to-foreground/5" />
         )}
 
-
-        {/* Play button - neobrutalism style */}
         {/* Play button - neobrutalism style (Hidden for images) */}
         {item.type !== 'image' && (
           <div className="absolute inset-0 flex items-center justify-center">
@@ -49,6 +47,6 @@ export default function PortfolioCard({ item, index }: PortfolioCardProps) {
           {item.title}
         </p>
       </div>
-    </a>
+    </button>
   );
 }
