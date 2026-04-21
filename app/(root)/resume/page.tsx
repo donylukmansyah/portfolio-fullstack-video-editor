@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ResumeSection from "@/components/portfolio/ResumeSection";
+import ResumeSection from "@/components/resume";
 
 export const metadata: Metadata = {
   title: "Resume | Dony Lukmansyah",

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ContactSection from "@/components/portfolio/ContactSection";
+import ContactSection from "@/components/contact";
 
 export const metadata: Metadata = {
   title: "Contact | Dony Lukmansyah",
