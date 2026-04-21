@@ -16,7 +16,7 @@ export default function FilterTabs({
   return (
     <div
       className={cn(
-        "flex overflow-x-auto sm:overflow-visible pb-2 pr-2 sm:pb-0 sm:pr-0 sm:flex-wrap gap-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]",
+        "flex overflow-x-auto sm:overflow-visible pb-1 pr-2 sm:pb-0 sm:pr-0 sm:flex-wrap gap-2 no-scrollbar",
         className
       )}
       role="tablist"

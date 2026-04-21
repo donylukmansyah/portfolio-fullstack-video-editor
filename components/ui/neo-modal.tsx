@@ -72,7 +72,7 @@ export function NeoModal({
     <div className="fixed inset-0 z-999 flex items-center justify-center p-4" id="neo-modal-portal">
       {/* Backdrop */}
       <div
-        className={`absolute inset-0 bg-black/40 backdrop-blur-sm cursor-pointer ${
+        className={`absolute inset-0 bg-overlay cursor-pointer ${
           isClosing
             ? "animate-out fade-out duration-200"
             : "animate-in fade-in duration-200"

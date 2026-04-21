@@ -23,17 +23,22 @@ export const metadata: Metadata = {
   },
 };
 
+import { ScrollArea } from "@/components/ui/scroll-area";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={`${spaceGrotesk.variable} h-full antialiased`}>
+    <html lang="id" className={`${spaceGrotesk.variable} h-full antialiased`} suppressHydrationWarning>
       <body
-        className={`${spaceGrotesk.className} min-h-full overflow-x-hidden flex flex-col`}
+        className={`${spaceGrotesk.className} h-full overflow-hidden flex flex-col`}
+        suppressHydrationWarning
       >
-        {children}
+        <ScrollArea id="main-scroll-area" className="h-full w-full">
+          {children}
+        </ScrollArea>
       </body>
     </html>
   );
