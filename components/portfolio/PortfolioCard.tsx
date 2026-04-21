@@ -19,9 +19,9 @@ export default function PortfolioCard({ item, index, onClick }: PortfolioCardPro
     >
       {/* Thumbnail */}
       <div className="relative aspect-video overflow-hidden border-b-2 border-border bg-foreground/10">
-        {item.thumbnail ? (
+        {item.thumbnailUrl ? (
           <Image
-            src={item.thumbnail}
+            src={item.thumbnailUrl}
             alt={item.title}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -32,7 +32,7 @@ export default function PortfolioCard({ item, index, onClick }: PortfolioCardPro
         )}
 
         {/* Play button - neobrutalism style (Hidden for images) */}
-        {item.type !== 'image' && (
+        {item.mediaType === 'video' && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-base border-2 border-border bg-main shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] transition-transform duration-200 group-hover:scale-110">
               <Play className="ml-0.5 h-5 w-5 fill-main-foreground text-main-foreground" />

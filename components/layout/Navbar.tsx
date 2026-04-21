@@ -5,10 +5,11 @@ import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { ExternalLink, Search, Home, FileText, Mail } from "lucide-react";
-import { profileData, portfolioItems } from "@/data/PortfolioData";
+import { profileData } from "@/data/PortfolioData";
 import { useModal } from "@/hooks/useModal";
 import { useScrolledPast } from "@/hooks/useScrollPosition";
 import ShareModal from "@/components/portfolio/ShareModal";
+import type { PortfolioCommandItem } from "@/types/Portfolio";
 import {
   CommandDialog,
   CommandEmpty,
@@ -19,7 +20,11 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 
-export default function Navbar() {
+export default function Navbar({
+  portfolioCommandItems = [],
+}: {
+  portfolioCommandItems?: PortfolioCommandItem[];
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const shareModal = useModal();
@@ -211,7 +216,7 @@ export default function Navbar() {
           <CommandSeparator />
 
           <CommandGroup heading="Portfolio">
-            {portfolioItems.map((item) => (
+            {portfolioCommandItems.map((item) => (
               <CommandItem
                 key={item.id}
                 onSelect={() => {

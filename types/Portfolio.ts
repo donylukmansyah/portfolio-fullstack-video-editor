@@ -1,15 +1,32 @@
-export type MainCategory = "All" | "Video Editor" | "Graphic Designer" | "Software Engineer";
+export type MainCategory = string;
 
 export interface PortfolioItem {
   id: string;
   title: string;
   thumbnailLabel: string;
-  thumbnail?: string;
-  category: Exclude<MainCategory, "All">;
-  subCategory: string;
-  youtubeUrl: string;
-  gradient: string;
-  type?: "video" | "image";
+  thumbnailUrl?: string | null;
+  category?: string;
+  subCategory?: string;
+  youtubeUrl?: string | null;
+  gradient?: string | null;
+  mediaType: "video" | "image";
+}
+
+export interface PortfolioCommandItem {
+  id: string;
+  title: string;
+  subCategory?: string | null;
+}
+
+export interface PortfolioSectionCategory {
+  id: string;
+  name: string;
+  slug: string;
+  subCategories: {
+    id: string;
+    name: string;
+    slug: string;
+  }[];
 }
 
 export interface SocialLink {

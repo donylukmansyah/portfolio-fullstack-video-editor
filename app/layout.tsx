@@ -31,7 +31,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={`${spaceGrotesk.variable} h-full antialiased`} suppressHydrationWarning>
+    <html
+      lang="id"
+      className={`${spaceGrotesk.variable} h-full antialiased`}
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+    >
       <body
         className={`${spaceGrotesk.className} h-full overflow-hidden flex flex-col`}
         suppressHydrationWarning

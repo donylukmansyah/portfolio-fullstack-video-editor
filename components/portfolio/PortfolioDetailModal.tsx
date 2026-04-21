@@ -91,15 +91,15 @@ export default function PortfolioDetailModal({ items, selectedIndex, onClose }: 
               }
             >
               <div className="relative w-full aspect-video overflow-hidden rounded-base border-2 border-border bg-white shadow-[4px_4px_0px_0px_var(--border)]">
-                {item.type !== "image" && getYouTubeEmbedUrl(item.youtubeUrl) ? (
+                {item.mediaType !== "image" && item.youtubeUrl && getYouTubeEmbedUrl(item.youtubeUrl) ? (
                   <iframe
-                    src={getYouTubeEmbedUrl(item.youtubeUrl)}
+                    src={getYouTubeEmbedUrl(item.youtubeUrl || "")}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     className="absolute inset-0 h-full w-full"
                   />
-                ) : item.thumbnail ? (
-                  <Image src={item.thumbnail} alt={item.title} fill className="object-cover" />
+                ) : item.thumbnailUrl ? (
+                  <Image src={item.thumbnailUrl} alt={item.title} fill className="object-cover" />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-main/30 to-background">
                     <Play className="h-16 w-16 text-main/50" />
