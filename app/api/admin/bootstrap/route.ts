@@ -3,15 +3,26 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { isAdminEmail } from "@/lib/admin-access";
 import { auth } from "@/lib/auth";
+import { adminBootstrapSchema } from "@/server/validation/auth";
 
 export async function POST(request: Request) {
-  const body = await request.json().catch(() => null) as {
-    email?: string;
-    password?: string;
-  } | null;
+  const bootstrapEnabled =
+    process.env.ENABLE_ADMIN_BOOTSTRAP === "true" ||
+    (process.env.NODE_ENV !== "production" && process.env.ENABLE_ADMIN_BOOTSTRAP !== "false");
 
-  const email = body?.email?.trim().toLowerCase() ?? "";
-  const password = body?.password ?? "";
+  if (!bootstrapEnabled) {
+    return NextResponse.json({ error: "Admin bootstrap is disabled." }, { status: 404 });
+  }
+
+  const body = await request.json().catch(() => null);
+  const parsed = adminBootstrapSchema.safeParse(body);
+
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid admin bootstrap payload." }, { status: 400 });
+  }
+
+  const email = parsed.data.email.trim().toLowerCase();
+  const password = parsed.data.password;
   const configuredEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase() ?? "";
   const configuredPassword = process.env.ADMIN_PASSWORD ?? "";
 
@@ -32,15 +43,17 @@ export async function POST(request: Request) {
     },
   });
 
-  if (!existingUser) {
-    await auth.api.signUpEmail({
-      body: {
-        email,
-        password,
-        name: "Admin",
-      },
-    });
+  if (existingUser) {
+    return NextResponse.json({ error: "Admin bootstrap has already been completed." }, { status: 409 });
   }
+
+  await auth.api.signUpEmail({
+    body: {
+      email,
+      password,
+      name: "Admin",
+    },
+  });
 
   return NextResponse.json({ ok: true });
 }

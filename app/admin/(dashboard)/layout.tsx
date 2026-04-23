@@ -1,5 +1,5 @@
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/admin/AppSidebar";
+import { AppSidebar } from "@/features/admin/components/app-sidebar";
 import { requireAdminPage } from "@/lib/admin";
 
 export default async function AdminDashboardLayout({

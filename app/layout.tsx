@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
+
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { createPublicRootMetadata } from "@/lib/metadata/public";
+
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -8,22 +12,7 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
 });
 
-export const metadata: Metadata = {
-  title: "Dony Lukmansyah | Video Editor & Motion Design",
-  description:
-    "21 year old video editor creating visual stories with passion and purpose. Portfolio showcasing video editing and motion design work.",
-  metadataBase: new URL("https://donylukmansyah.vercel.app"),
-  openGraph: {
-    title: "Dony Lukmansyah | Video Editor & Motion Design",
-    description:
-      "21 year old video editor creating visual stories with passion and purpose.",
-    images: ["/og-image.jpg"],
-    url: "https://donylukmansyah.vercel.app",
-    type: "website",
-  },
-};
-
-import { ScrollArea } from "@/components/ui/scroll-area";
+export const metadata: Metadata = createPublicRootMetadata();
 
 export default function RootLayout({
   children,

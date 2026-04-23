@@ -14,46 +14,25 @@ interface PortfolioDetailModalProps {
 }
 
 export default function PortfolioDetailModal({ items, selectedIndex, onClose }: PortfolioDetailModalProps) {
-  const [modalState, setModalState] = useState({
-    currentIndex: 0,
-    slideDirection: null as "left" | "right" | null,
-    isOpen: false,
-  });
+  const [currentIndex, setCurrentIndex] = useState(selectedIndex ?? 0);
+  const [slideDirection, setSlideDirection] = useState<"left" | "right" | null>(null);
+  const isModalOpen = selectedIndex !== null;
 
-  // Handle prop changes synchronously during render to avoid "cascading renders" warning.
-  // This is the recommended pattern for syncing state from props.
-  const [prevSelectedIndex, setPrevSelectedIndex] = useState<number | null>(selectedIndex);
-
-  if (selectedIndex !== prevSelectedIndex) {
-    setPrevSelectedIndex(selectedIndex);
-    if (selectedIndex !== null) {
-      setModalState((prev) => ({
-        ...prev,
-        currentIndex: selectedIndex,
-        slideDirection: null,
-        isOpen: true,
-      }));
-    } else {
-      setModalState((prev) => ({ ...prev, isOpen: false }));
-    }
-  }
-
-  const { currentIndex, slideDirection, isOpen: isModalOpen } = modalState;
-
-  // item stays valid during close because currentIndex is preserved
   const item = items[currentIndex] ?? null;
   const hasPrev = currentIndex > 0;
   const hasNext = currentIndex < items.length - 1;
 
   const goNext = useCallback(() => {
     if (hasNext) {
-      setModalState((prev) => ({ ...prev, slideDirection: "right", currentIndex: prev.currentIndex + 1 }));
+      setSlideDirection("right");
+      setCurrentIndex((prev) => prev + 1);
     }
   }, [hasNext]);
 
   const goPrev = useCallback(() => {
     if (hasPrev) {
-      setModalState((prev) => ({ ...prev, slideDirection: "left", currentIndex: prev.currentIndex - 1 }));
+      setSlideDirection("left");
+      setCurrentIndex((prev) => prev - 1);
     }
   }, [hasPrev]);
 

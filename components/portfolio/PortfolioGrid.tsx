@@ -53,6 +53,7 @@ export default function PortfolioGrid({ items, isLoading = false }: PortfolioGri
       </div>
 
       <PortfolioDetailModal
+        key={selectedIndex ?? -1}
         items={items}
         selectedIndex={selectedIndex}
         onClose={() => setSelectedIndex(null)}

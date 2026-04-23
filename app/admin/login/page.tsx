@@ -19,42 +19,43 @@ export default function AdminLogin() {
     setLoading(true);
     setError("");
 
-    const signInResult = await authClient.signIn.email({
-      email,
-      password,
-    });
-
-    if (signInResult.error) {
-      const bootstrapResponse = await fetch("/api/admin/bootstrap", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
+    try {
+      const signInResult = await authClient.signIn.email({
+        email,
+        password,
       });
 
-      if (bootstrapResponse.ok) {
-        const retryResult = await authClient.signIn.email({
-          email,
-          password,
+      if (signInResult.error) {
+        const bootstrapResponse = await fetch("/api/admin/bootstrap", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
         });
 
-        if (!retryResult.error) {
-          router.push("/admin");
-          router.refresh();
-          setLoading(false);
-          return;
+        if (bootstrapResponse.ok) {
+          const retryResult = await authClient.signIn.email({
+            email,
+            password,
+          });
+
+          if (!retryResult.error) {
+            router.push("/admin");
+            router.refresh();
+            return;
+          }
         }
+
+        setError(signInResult.error.message ?? "Login failed.");
+        return;
       }
 
-      setError(signInResult.error.message ?? "Login failed.");
+      router.push("/admin");
+      router.refresh();
+    } finally {
       setLoading(false);
-      return;
     }
-
-    router.push("/admin");
-    router.refresh();
-    setLoading(false);
   };
 
   return (
