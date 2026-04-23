@@ -63,3 +63,20 @@ export type PortfolioManagerData = {
   subCategoryOptions: SubCategoryOption[];
   portfolioRows: PortfolioRow[];
 };
+
+export type ContactMessageRow = {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  isRead: boolean;
+  createdAt: string;
+  readAt: string | null;
+};
+
+export type ContactMessagesData = {
+  adminEmail: string | null;
+  stats: AdminStat[];
+  unreadCount: number;
+  rows: ContactMessageRow[];
+};

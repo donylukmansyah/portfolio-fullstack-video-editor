@@ -1,4 +1,25 @@
-export default function BackgroundDecorations() {
+type BackgroundDecorationsProps = {
+  variant?: "default" | "home";
+};
+
+const HOME_DESKTOP_POSITIONS = {
+  topLeftArrow: "sm:-left-8 sm:top-[145px]",
+  bottomRightStarburst: "sm:top-[770px]",
+  topRightDiamond: "sm:top-[60px]",
+  midLeftCircle: "sm:top-[600px]",
+  bottomLeftCross: "sm:top-[810px]",
+  rightMidZigzag: "sm:top-[435px]",
+  topCenterSquare: "sm:top-[32px]",
+  bottomCenterTriangle: "sm:top-[985px]",
+} as const;
+
+export default function BackgroundDecorations({
+  variant = "default",
+}: BackgroundDecorationsProps) {
+  // Home uses fixed desktop offsets so filter/sub-filter transitions do not
+  // move ornaments when the section height changes during loading.
+  const homeVariant = variant === "home";
+
   return (
     <div className="pointer-events-none z-0 overflow-hidden absolute inset-0 h-full w-full" aria-hidden="true">
       {/* Grid pattern */}
@@ -13,7 +34,9 @@ export default function BackgroundDecorations() {
 
       {/* Top-left: Arrow/Cursor pointing inward */}
       <svg
-        className="absolute -left-12 top-[420px] sm:-left-8 sm:top-[15%] w-[140px] sm:w-[200px] -rotate-12"
+        className={`absolute -left-12 top-[420px] w-[140px] sm:w-[200px] -rotate-12 ${
+          homeVariant ? HOME_DESKTOP_POSITIONS.topLeftArrow : "sm:-left-8 sm:top-[15%]"
+        }`}
         viewBox="0 0 200 220"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +51,9 @@ export default function BackgroundDecorations() {
 
       {/* Bottom-right: Starburst/Explosion */}
       <svg
-        className="absolute -right-10 top-[850px] sm:top-auto sm:bottom-[8%] w-[180px] sm:w-[220px] rotate-6"
+        className={`absolute -right-10 top-[850px] w-[180px] sm:w-[220px] rotate-6 ${
+          homeVariant ? HOME_DESKTOP_POSITIONS.bottomRightStarburst : "sm:top-auto sm:bottom-[8%]"
+        }`}
         viewBox="0 0 200 200"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +68,9 @@ export default function BackgroundDecorations() {
 
       {/* Top-right: Small diamond */}
       <svg
-        className="absolute right-[8%] top-[60px] sm:top-[6%] w-[50px] sm:w-[65px] rotate-12"
+        className={`absolute right-[8%] top-[60px] w-[50px] sm:w-[65px] rotate-12 ${
+          homeVariant ? HOME_DESKTOP_POSITIONS.topRightDiamond : "sm:top-[6%]"
+        }`}
         viewBox="0 0 60 60"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +90,9 @@ export default function BackgroundDecorations() {
 
       {/* Mid-left: Small circle (Desktop Only) */}
       <svg
-        className="hidden sm:block absolute left-[5%] top-[55%] w-[45px]"
+        className={`hidden sm:block absolute left-[5%] w-[45px] ${
+          homeVariant ? HOME_DESKTOP_POSITIONS.midLeftCircle : "top-[55%]"
+        }`}
         viewBox="0 0 50 50"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +109,9 @@ export default function BackgroundDecorations() {
 
       {/* Bottom-left: Small cross/plus */}
       <svg
-        className="absolute left-[3%] top-[700px] sm:top-auto sm:bottom-[20%] w-[40px] sm:w-[55px] -rotate-12"
+        className={`absolute left-[3%] top-[700px] w-[40px] sm:w-[55px] -rotate-12 ${
+          homeVariant ? HOME_DESKTOP_POSITIONS.bottomLeftCross : "sm:top-auto sm:bottom-[20%]"
+        }`}
         viewBox="0 0 60 60"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +126,9 @@ export default function BackgroundDecorations() {
 
       {/* Right mid: Zigzag/Lightning */}
       <svg
-        className="absolute right-[3%] top-[300px] sm:top-[40%] w-[40px] sm:w-[50px] rotate-6"
+        className={`absolute right-[3%] top-[300px] w-[40px] sm:w-[50px] rotate-6 ${
+          homeVariant ? HOME_DESKTOP_POSITIONS.rightMidZigzag : "sm:top-[40%]"
+        }`}
         viewBox="0 0 50 80"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -110,7 +143,9 @@ export default function BackgroundDecorations() {
 
       {/* Top center-left: Small square */}
       <svg
-        className="absolute left-[20%] top-[30px] sm:top-[3%] w-[28px] sm:w-[35px] rotate-6"
+        className={`absolute left-[20%] top-[30px] w-[28px] sm:w-[35px] rotate-6 ${
+          homeVariant ? HOME_DESKTOP_POSITIONS.topCenterSquare : "sm:top-[3%]"
+        }`}
         viewBox="0 0 40 40"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -129,7 +164,9 @@ export default function BackgroundDecorations() {
 
       {/* Bottom center: Small triangle */}
       <svg
-        className="absolute left-[35%] top-[950px] sm:top-auto sm:bottom-[5%] w-[40px] sm:w-[50px] -rotate-6"
+        className={`absolute left-[35%] top-[950px] w-[40px] sm:w-[50px] -rotate-6 ${
+          homeVariant ? HOME_DESKTOP_POSITIONS.bottomCenterTriangle : "sm:top-auto sm:bottom-[5%]"
+        }`}
         viewBox="0 0 60 55"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

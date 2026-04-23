@@ -1,9 +1,16 @@
 import PublicShell from "@/components/layout/PublicShell";
+import { getPortfolioCommandItems } from "@/lib/portfolio";
 
-export default function RootGroupLayout({
+export default async function RootGroupLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <PublicShell>{children}</PublicShell>;
+  const portfolioCommandItems = await getPortfolioCommandItems();
+
+  return (
+    <PublicShell portfolioCommandItems={portfolioCommandItems}>
+      {children}
+    </PublicShell>
+  );
 }

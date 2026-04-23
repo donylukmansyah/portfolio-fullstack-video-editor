@@ -14,8 +14,9 @@ export async function AdminDashboardOverview() {
             <p className="text-xs font-heading uppercase tracking-wide text-foreground/60">Dashboard</p>
             <h1 className="mt-2 text-3xl font-heading text-foreground">Portfolio Overview</h1>
             <p className="mt-2 max-w-2xl text-sm text-foreground/75">
-              Quick snapshot of your portfolio structure. Jump into the portfolio workspace when you want
-              to add filters, thumbnails, videos, or edit cards.
+              Quick snapshot of your portfolio structure and incoming contact activity. Jump into the
+              workspace when you want to add filters, thumbnails, videos, edit cards, or review new
+              messages.
             </p>
             <p className="mt-3 text-xs font-heading text-foreground/60">
               Logged in as {adminEmail}
@@ -28,7 +29,7 @@ export async function AdminDashboardOverview() {
         </div>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-3">
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {stats.map((stat) => (
           <div key={stat.label} className="neo-panel p-5">
             <p className="text-xs font-heading uppercase tracking-wide text-foreground/60">{stat.label}</p>

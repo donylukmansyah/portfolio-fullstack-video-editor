@@ -11,16 +11,18 @@ type PublicShellProps = {
   children: ReactNode;
   portfolioCommandItems?: PortfolioCommandItem[];
   contentClassName?: string;
+  decorationVariant?: "default" | "home";
 };
 
 export default function PublicShell({
   children,
   portfolioCommandItems,
   contentClassName,
+  decorationVariant = "default",
 }: PublicShellProps) {
   return (
     <div className="relative flex min-h-screen flex-col">
-      <BackgroundDecorations />
+      <BackgroundDecorations variant={decorationVariant} />
       <Navbar portfolioCommandItems={portfolioCommandItems} />
       <main className="relative z-10 flex-1">
         <div

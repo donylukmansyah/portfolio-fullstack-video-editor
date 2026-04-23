@@ -5,18 +5,32 @@ import { cache } from "react";
 import { getAdminSession } from "@/lib/admin";
 import { getPortfolioItemsForAdmin } from "@/lib/portfolio";
 import prisma from "@/lib/prisma";
-import type { AdminOverviewData, PortfolioManagerData } from "@/features/admin/types";
+import type {
+  AdminOverviewData,
+  ContactMessagesData,
+  PortfolioManagerData,
+} from "@/features/admin/types";
 
 const dateFormatter = new Intl.DateTimeFormat("id-ID", {
   dateStyle: "medium",
 });
 
+const dateTimeFormatter = new Intl.DateTimeFormat("id-ID", {
+  dateStyle: "medium",
+  timeStyle: "short",
+});
+
 export const getAdminOverviewData = cache(async (): Promise<AdminOverviewData> => {
-  const [session, mainCategoryCount, subCategoryCount, portfolioCount] = await Promise.all([
+  const [session, mainCategoryCount, subCategoryCount, portfolioCount, unreadMessageCount] = await Promise.all([
     getAdminSession(),
     prisma.mainCategory.count(),
     prisma.subCategory.count(),
     prisma.portfolioItem.count(),
+    prisma.contactMessage.count({
+      where: {
+        isRead: false,
+      },
+    }),
   ]);
 
   return {
@@ -25,6 +39,7 @@ export const getAdminOverviewData = cache(async (): Promise<AdminOverviewData> =
       { label: "Main Categories", value: mainCategoryCount, helper: "Top-level portfolio filters" },
       { label: "Sub Categories", value: subCategoryCount, helper: "Nested filters under each category" },
       { label: "Portfolio Cards", value: portfolioCount, helper: "Cards shown on the public page" },
+      { label: "Unread Messages", value: unreadMessageCount, helper: "Incoming contact messages waiting for review" },
     ],
   };
 });
@@ -120,5 +135,47 @@ export const getPortfolioManagerData = cache(async (): Promise<PortfolioManagerD
     subCategoryRows,
     subCategoryOptions,
     portfolioRows,
+  };
+});
+
+export const getContactMessagesData = cache(async (): Promise<ContactMessagesData> => {
+  const [session, unreadCount, messages] = await Promise.all([
+    getAdminSession(),
+    prisma.contactMessage.count({
+      where: {
+        isRead: false,
+      },
+    }),
+    prisma.contactMessage.findMany({
+      orderBy: [
+        {
+          isRead: "asc",
+        },
+        {
+          createdAt: "desc",
+        },
+      ],
+    }),
+  ]);
+
+  const rows = messages.map((message) => ({
+    id: message.id,
+    name: message.name,
+    email: message.email,
+    message: message.message,
+    isRead: message.isRead,
+    createdAt: dateTimeFormatter.format(message.createdAt),
+    readAt: message.readAt ? dateTimeFormatter.format(message.readAt) : null,
+  }));
+
+  return {
+    adminEmail: session?.user.email ?? null,
+    unreadCount,
+    rows,
+    stats: [
+      { label: "Total Messages", value: rows.length },
+      { label: "Unread", value: unreadCount },
+      { label: "Read", value: rows.length - unreadCount },
+    ],
   };
 });

@@ -1,0 +1,49 @@
+
+> video-editor@0.1.0 dev D:\PEMROGRAMAN\PORTFOLIO NEW\video-editor
+> next dev
+
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.13:3000
+- Environments: .env
+✓ Ready in 373ms
+
+ GET /manifest.webmanifest 200 in 105ms (next.js: 94ms, application-code: 11ms)
+ GET /contact 200 in 1525ms (next.js: 431ms, application-code: 1094ms)
+ GET /manifest.webmanifest 200 in 13ms (next.js: 5ms, application-code: 8ms)
+ GET / 200 in 3.2s (next.js: 388ms, application-code: 2.8s)
+ GET /admin/messages 200 in 2.3s (next.js: 380ms, proxy.ts: 1209ms, application-code: 736ms)
+ GET /manifest.webmanifest 200 in 11ms (next.js: 7ms, application-code: 4ms)
+ GET /contact 200 in 268ms (next.js: 6ms, application-code: 262ms)
+ GET /manifest.webmanifest 200 in 11ms (next.js: 6ms, application-code: 5ms)
+ POST /contact 200 in 1303ms (next.js: 5ms, application-code: 1298ms)
+  └─ ƒ submitContactMessage({"cooldownUntil":null,"message":"","ok":false,"...":"1 item not stringified"}, {}) in 1273ms app/actions/contact.ts
+ GET /contact 200 in 470ms (next.js: 5ms, application-code: 464ms)
+ GET /manifest.webmanifest 200 in 11ms (next.js: 6ms, application-code: 5ms)
+ POST /contact 200 in 423ms (next.js: 4ms, application-code: 419ms)
+  └─ ƒ submitContactMessage({"cooldownUntil":null,"message":"","ok":false,"...":"1 item not stringified"}, {}) in 412ms app/actions/contact.ts
+ POST /contact 200 in 418ms (next.js: 4ms, application-code: 414ms)
+  └─ ƒ submitContactMessage({"cooldownUntil":1776947313976,"message":"Please wait 3 seconds before sending another message.","ok":false,"...":"1 item not stringified"}, {}) in 407ms app/actions/contact.ts
+ GET /contact 200 in 691ms (next.js: 3ms, application-code: 687ms)
+ GET /manifest.webmanifest 200 in 11ms (next.js: 7ms, application-code: 5ms)
+ POST /contact 200 in 92ms (next.js: 4ms, application-code: 88ms)
+  └─ ƒ submitContactMessage({"cooldownUntil":null,"message":"","ok":false,"...":"1 item not stringified"}, {}) in 78ms app/actions/contact.ts
+ GET /contact 200 in 485ms (next.js: 3ms, application-code: 482ms)
+ GET /manifest.webmanifest 200 in 8ms (next.js: 3ms, application-code: 5ms)
+ POST /contact 200 in 1434ms (next.js: 4ms, application-code: 1431ms)
+  └─ ƒ submitContactMessage({"cooldownUntil":null,"message":"","ok":false,"...":"1 item not stringified"}, {}) in 1422ms app/actions/contact.ts
+ GET /contact 200 in 1149ms (next.js: 289ms, application-code: 860ms)
+ GET /contact 200 in 773ms (next.js: 110ms, application-code: 664ms)
+ GET /contact 200 in 538ms (next.js: 42ms, application-code: 497ms)
+ GET /contact 200 in 540ms (next.js: 8ms, application-code: 532ms)
+ GET / 200 in 797ms (next.js: 47ms, application-code: 750ms)
+ GET / 200 in 1173ms (next.js: 6ms, application-code: 1167ms)
+ GET / 200 in 640ms (next.js: 5ms, application-code: 636ms)
+ GET / 200 in 640ms (next.js: 37ms, application-code: 603ms)
+ GET /manifest.webmanifest 200 in 34ms (next.js: 30ms, application-code: 4ms)
+ GET /manifest.webmanifest 200 in 40ms (next.js: 35ms, application-code: 4ms)
+ GET /admin/messages 200 in 1396ms (next.js: 50ms, proxy.ts: 772ms, application-code: 573ms)
+ GET /admin/messages 200 in 428ms (next.js: 5ms, proxy.ts: 220ms, application-code: 203ms)
+ GET /admin/messages 200 in 269ms (next.js: 4ms, proxy.ts: 131ms, application-code: 134ms)
+ GET /admin/messages 200 in 306ms (next.js: 49ms, proxy.ts: 131ms, application-code: 126ms)
+ GET /manifest.webmanifest 200 in 6ms (next.js: 2ms, application-code: 4ms)

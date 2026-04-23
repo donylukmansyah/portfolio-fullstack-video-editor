@@ -1,6 +1,6 @@
 "use client";
 
-import { FolderKanban, LayoutDashboard, Sparkles } from "lucide-react";
+import { FolderKanban, Inbox, LayoutDashboard, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -20,6 +20,7 @@ import {
 const items = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
   { title: "Portfolio", url: "/admin/portfolios", icon: FolderKanban },
+  { title: "Messages", url: "/admin/messages", icon: Inbox },
 ];
 
 type AppSidebarProps = {

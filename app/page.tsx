@@ -29,7 +29,10 @@ export default async function Home({ searchParams }: Props) {
   const portfolioCommandItems = await getPortfolioCommandItems();
 
   return (
-    <PublicShell portfolioCommandItems={portfolioCommandItems}>
+    <PublicShell
+      portfolioCommandItems={portfolioCommandItems}
+      decorationVariant="home"
+    >
       <ProfileSection />
       <PortfolioFetcher
         categorySlug={categorySlug}
