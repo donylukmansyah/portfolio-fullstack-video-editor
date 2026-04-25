@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
-import { Play, ChevronLeft, ChevronRight } from "lucide-react";
+import { Play, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { NeoModal } from "@/components/ui/neo-modal";
+import { toSafeHttpUrl } from "@/lib/safe-url";
 import { getYouTubeEmbedUrl } from "@/lib/youtube";
 import type { PortfolioItem } from "@/types/Portfolio";
 
@@ -19,6 +20,9 @@ export default function PortfolioDetailModal({ items, selectedIndex, onClose }: 
   const isModalOpen = selectedIndex !== null;
 
   const item = items[currentIndex] ?? null;
+  const externalLinkUrl = toSafeHttpUrl(item?.externalLinkUrl);
+  const externalLinkLogoUrl = toSafeHttpUrl(item?.externalLinkLogoUrl);
+  const externalLinkLabel = item?.externalLinkName ?? "External Link";
   const hasPrev = currentIndex > 0;
   const hasNext = currentIndex < items.length - 1;
 
@@ -52,6 +56,29 @@ export default function PortfolioDetailModal({ items, selectedIndex, onClose }: 
       onClose={onClose}
       title={item?.title}
       className="max-w-4xl"
+      topRightAction={
+        externalLinkUrl ? (
+          <a
+            href={externalLinkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group/link inline-flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-base border-2 border-border bg-white p-1 text-foreground shadow-[2px_2px_0px_0px_var(--border)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-main hover:text-main-foreground hover:shadow-none focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+            aria-label={`Open ${externalLinkLabel} in a new tab`}
+            title={externalLinkLabel}
+          >
+            {externalLinkLogoUrl ? (
+              <span
+                className="block size-full rounded-[2px] bg-contain bg-center bg-no-repeat transition-transform group-hover/link:scale-105"
+                style={{ backgroundImage: `url("${externalLinkLogoUrl}")` }}
+                aria-hidden="true"
+              />
+            ) : (
+              <ExternalLink className="size-4" strokeWidth={2.5} aria-hidden="true" />
+            )}
+            <span className="sr-only">{externalLinkLabel}</span>
+          </a>
+        ) : null
+      }
     >
       {item && (
         <div className="flex flex-col gap-4 w-full">
@@ -88,19 +115,19 @@ export default function PortfolioDetailModal({ items, selectedIndex, onClose }: 
             </div>
           </div>
 
-          {/* Bottom Row: Badges on left, Arrows on right */}
-          <div className="flex items-center justify-between gap-4">
-            {/* Badges */}
-            <div className="flex flex-wrap gap-2">
-              <span className="rounded-base border-2 border-border bg-main px-3 py-1.5 text-xs font-bold text-main-foreground shadow-[2px_2px_0px_0px_var(--border)] whitespace-nowrap">
+          {/* Bottom bar: Badges (left), Arrows (right) */}
+          <div className="flex items-center justify-between w-full">
+            {/* Left side: Badges */}
+            <div className="flex items-center gap-2">
+              <span className="inline-flex h-10 items-center justify-center rounded-base border-2 border-border bg-main px-4 text-xs font-bold text-main-foreground shadow-[2px_2px_0px_0px_var(--border)] whitespace-nowrap">
                 {item.category}
               </span>
-              <span className="hidden sm:inline-block rounded-base border-2 border-border bg-white px-3 py-1.5 text-xs font-bold text-foreground shadow-[2px_2px_0px_0px_var(--border)] whitespace-nowrap">
+              <span className="hidden sm:inline-flex h-10 items-center justify-center rounded-base border-2 border-border bg-white px-4 text-xs font-bold text-foreground shadow-[2px_2px_0px_0px_var(--border)] whitespace-nowrap">
                 {item.subCategory}
               </span>
             </div>
 
-            {/* Arrow nav — right side */}
+            {/* Right side: Arrows */}
             {items.length > 1 && (
               <div className="flex items-center gap-2 shrink-0">
                 <button

@@ -2,7 +2,7 @@ import "server-only";
 
 import type { Prisma } from "@prisma/client";
 
-import { mapPortfolioItem } from "@/lib/portfolio";
+import { mapPortfolioItem, portfolioItemSelect } from "@/lib/portfolio";
 import prisma from "@/lib/prisma";
 
 type GetPortfolioPageDataOptions = {
@@ -17,7 +17,7 @@ export async function getPortfolioPageData({
   subCategorySlug,
 }: GetPortfolioPageDataOptions) {
   const limit = 6;
-  const currentPage = Math.max(page, 1);
+  const currentPage = Number.isFinite(page) ? Math.max(page, 1) : 1;
   const whereClause: Prisma.PortfolioItemWhereInput = {};
   const subCategoryWhere: Prisma.SubCategoryWhereInput = {};
 
@@ -39,12 +39,26 @@ export async function getPortfolioPageData({
 
   const [categories, items, totalCount] = await Promise.all([
     prisma.mainCategory.findMany({
-      include: { subCategories: true },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        subCategories: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          },
+          orderBy: {
+            createdAt: "asc",
+          },
+        },
+      },
       orderBy: { createdAt: "asc" },
     }),
     prisma.portfolioItem.findMany({
       where: whereClause,
-      include: { subCategory: { include: { mainCategory: true } } },
+      select: portfolioItemSelect,
       skip: (currentPage - 1) * limit,
       take: limit,
       orderBy: { createdAt: "desc" },

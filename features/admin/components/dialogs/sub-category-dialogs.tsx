@@ -18,6 +18,7 @@ import {
   FeedbackAlert,
   selectClassName,
   SubmitButton,
+  labelClassName,
 } from "@/features/admin/components/dialogs/shared";
 import { Input } from "@/components/ui/input";
 
@@ -46,13 +47,13 @@ export function SubCategoryCreateDialog({
       open={open}
       onOpenChange={handleOpenChange}
     >
-      <form ref={formRef} onSubmit={handleSubmit} className="grid gap-4">
+      <form ref={formRef} onSubmit={handleSubmit} className="grid gap-5">
         <FeedbackAlert feedback={feedback} />
 
-        <fieldset className="grid gap-4" disabled={isPending}>
-          <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_240px]">
+        <fieldset className="grid gap-5" disabled={isPending}>
+          <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_240px]">
             <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor="sub-category-create-name">
+              <label className={labelClassName} htmlFor="sub-category-create-name">
                 Name
               </label>
               <Input
@@ -63,7 +64,7 @@ export function SubCategoryCreateDialog({
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor="sub-category-create-parent">
+              <label className={labelClassName} htmlFor="sub-category-create-parent">
                 Parent Category
               </label>
               <select
@@ -133,13 +134,13 @@ export function SubCategoryEditDialog({
       open={open}
       onOpenChange={handleOpenChange}
     >
-      <form onSubmit={handleSubmit} className="grid gap-4">
+      <form onSubmit={handleSubmit} className="grid gap-5">
         <FeedbackAlert feedback={feedback} />
 
-        <fieldset className="grid gap-4" disabled={isPending}>
-          <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_240px]">
+        <fieldset className="grid gap-5" disabled={isPending}>
+          <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_240px]">
             <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor={`sub-category-name-${subCategory.id}`}>
+              <label className={labelClassName} htmlFor={`sub-category-name-${subCategory.id}`}>
                 Name
               </label>
               <Input
@@ -150,7 +151,7 @@ export function SubCategoryEditDialog({
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor={`sub-category-parent-${subCategory.id}`}>
+              <label className={labelClassName} htmlFor={`sub-category-parent-${subCategory.id}`}>
                 Parent Category
               </label>
               <select
@@ -168,13 +169,13 @@ export function SubCategoryEditDialog({
               </select>
             </div>
           </div>
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-5 md:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm font-heading">Slug</label>
+              <label className={labelClassName}>Slug</label>
               <Input value={subCategory.slug} readOnly disabled />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-heading">Cards</label>
+              <label className={labelClassName}>Cards</label>
               <Input value={String(subCategory.portfolioCount)} readOnly disabled />
             </div>
           </div>

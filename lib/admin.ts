@@ -2,17 +2,18 @@ import "server-only";
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
 import { isAdminEmail } from "@/lib/admin-access";
 import { auth } from "@/lib/auth";
 
-export async function getServerSession() {
+export const getServerSession = cache(async () => {
   return auth.api.getSession({
     headers: await headers(),
   });
-}
+});
 
-export async function getAdminSession() {
+export const getAdminSession = cache(async () => {
   const session = await getServerSession();
 
   if (!session || !isAdminEmail(session.user.email)) {
@@ -20,7 +21,7 @@ export async function getAdminSession() {
   }
 
   return session;
-}
+});
 
 export async function requireAdminPage() {
   const session = await getAdminSession();

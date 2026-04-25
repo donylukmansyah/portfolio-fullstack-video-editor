@@ -14,6 +14,7 @@ import {
   DialogShell,
   FeedbackAlert,
   SubmitButton,
+  labelClassName,
 } from "@/features/admin/components/dialogs/shared";
 import { Input } from "@/components/ui/input";
 
@@ -39,12 +40,12 @@ export function MainCategoryCreateDialog() {
       open={open}
       onOpenChange={handleOpenChange}
     >
-      <form ref={formRef} onSubmit={handleSubmit} className="grid gap-4">
+      <form ref={formRef} onSubmit={handleSubmit} className="grid gap-5">
         <FeedbackAlert feedback={feedback} />
 
-        <fieldset className="grid gap-4" disabled={isPending}>
+        <fieldset className="grid gap-5" disabled={isPending}>
           <div>
-            <label className="mb-1 block text-sm font-heading" htmlFor="main-category-create-name">
+            <label className={labelClassName} htmlFor="main-category-create-name">
               Category Name
             </label>
             <Input
@@ -99,13 +100,13 @@ export function MainCategoryEditDialog({ category }: { category: MainCategoryRow
       open={open}
       onOpenChange={handleOpenChange}
     >
-      <form onSubmit={handleSubmit} className="grid gap-4">
+      <form onSubmit={handleSubmit} className="grid gap-5">
         <FeedbackAlert feedback={feedback} />
 
-        <fieldset className="grid gap-4" disabled={isPending}>
-          <div className="grid gap-4 md:grid-cols-2">
+        <fieldset className="grid gap-5" disabled={isPending}>
+          <div className="grid gap-5 md:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor={`main-category-name-${category.id}`}>
+              <label className={labelClassName} htmlFor={`main-category-name-${category.id}`}>
                 Category Name
               </label>
               <Input
@@ -116,12 +117,14 @@ export function MainCategoryEditDialog({ category }: { category: MainCategoryRow
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-heading">Slug</label>
+              <label className={labelClassName}>Slug</label>
               <Input value={category.slug} readOnly disabled />
             </div>
           </div>
-          <div className="rounded-base border-2 border-border bg-secondary-background px-4 py-3 text-sm">
-            This category currently contains {category.subCount} subcategories.
+          <div className="rounded-base border-2 border-border bg-secondary-background px-4 py-3 text-sm text-foreground/70">
+            This category currently contains{" "}
+            <span className="font-heading text-foreground">{category.subCount}</span>{" "}
+            subcategories.
           </div>
         </fieldset>
 

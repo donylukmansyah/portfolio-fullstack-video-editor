@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import FilterTabs from "@/components/portfolio/FilterTabs";
 import PortfolioGrid from "@/components/portfolio/PortfolioGrid";
 import type { PortfolioItem } from "@/types/Portfolio";
@@ -36,16 +36,37 @@ export default function PortfolioSection({
 }: PortfolioSectionProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
   const createQueryString = (paramsToUpdate: Record<string, string>) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams();
+
+    if (activeCategory !== "all") {
+      params.set("category", activeCategory);
+    }
+
+    if (activeSubCategory !== "all") {
+      params.set("sub", activeSubCategory);
+    }
+
+    if (currentPage > 1) {
+      params.set("page", String(currentPage));
+    }
+
     Object.entries(paramsToUpdate).forEach(([name, value]) => {
+      if (value === "all" || (name === "page" && value === "1")) {
+        params.delete(name);
+        return;
+      }
+
       params.set(name, value);
     });
+
     return params.toString();
   };
+
+  const getHref = (queryString: string) =>
+    queryString ? `${pathname}?${queryString}` : pathname;
 
   const mainCategoryOptions = [
     { label: "All", slug: "all" },
@@ -83,7 +104,7 @@ export default function PortfolioSection({
       navigateWithTransition(pathname);
     } else {
       navigateWithTransition(
-        pathname + "?" + createQueryString({ category: selectedCategory.slug, sub: "all", page: "1" })
+        getHref(createQueryString({ category: selectedCategory.slug, sub: "all", page: "1" }))
       );
     }
   };
@@ -96,9 +117,9 @@ export default function PortfolioSection({
     }
 
     if (selectedSubCategory.slug === activeSubCategory) {
-      navigateWithTransition(pathname + "?" + createQueryString({ sub: "all", page: "1" }));
+      navigateWithTransition(getHref(createQueryString({ sub: "all", page: "1" })));
     } else {
-      navigateWithTransition(pathname + "?" + createQueryString({ sub: selectedSubCategory.slug, page: "1" }));
+      navigateWithTransition(getHref(createQueryString({ sub: selectedSubCategory.slug, page: "1" })));
     }
   };
 
@@ -142,7 +163,7 @@ export default function PortfolioSection({
             <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious 
-                  href={currentPage > 1 ? `${pathname}?${createQueryString({ page: String(currentPage - 1) })}` : "#"} 
+                  href={currentPage > 1 ? getHref(createQueryString({ page: String(currentPage - 1) })) : "#"} 
                   className={currentPage <= 1 ? "pointer-events-none opacity-50" : ""}
                 />
               </PaginationItem>
@@ -150,7 +171,7 @@ export default function PortfolioSection({
               {Array.from({ length: totalPages }).map((_, i) => (
                 <PaginationItem key={i}>
                   <PaginationLink 
-                    href={`${pathname}?${createQueryString({ page: String(i + 1) })}`}
+                    href={getHref(createQueryString({ page: String(i + 1) }))}
                     isActive={currentPage === i + 1}
                   >
                     {i + 1}
@@ -160,7 +181,7 @@ export default function PortfolioSection({
 
               <PaginationItem>
                 <PaginationNext 
-                  href={currentPage < totalPages ? `${pathname}?${createQueryString({ page: String(currentPage + 1) })}` : "#"}
+                  href={currentPage < totalPages ? getHref(createQueryString({ page: String(currentPage + 1) })) : "#"}
                   className={currentPage >= totalPages ? "pointer-events-none opacity-50" : ""}
                 />
               </PaginationItem>

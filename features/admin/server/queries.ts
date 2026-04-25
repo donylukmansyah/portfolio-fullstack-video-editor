@@ -48,7 +48,10 @@ export const getPortfolioManagerData = cache(async (): Promise<PortfolioManagerD
   const [session, mainCategories, subCategories, portfolioItems] = await Promise.all([
     getAdminSession(),
     prisma.mainCategory.findMany({
-      include: {
+      select: {
+        id: true,
+        name: true,
+        slug: true,
         _count: {
           select: {
             subCategories: true,
@@ -60,8 +63,16 @@ export const getPortfolioManagerData = cache(async (): Promise<PortfolioManagerD
       },
     }),
     prisma.subCategory.findMany({
-      include: {
-        mainCategory: true,
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        mainCategoryId: true,
+        mainCategory: {
+          select: {
+            name: true,
+          },
+        },
         _count: {
           select: {
             portfolioItems: true,
@@ -116,7 +127,9 @@ export const getPortfolioManagerData = cache(async (): Promise<PortfolioManagerD
     thumbnailUrl: item.thumbnailUrl,
     mediaType: item.mediaType as "video" | "image",
     youtubeUrl: item.youtubeUrl,
-    gradient: item.gradient,
+    externalLinkName: item.externalLinkName,
+    externalLinkUrl: item.externalLinkUrl,
+    externalLinkLogoUrl: item.externalLinkLogoUrl,
     subCategoryId: item.subCategoryId,
     subCategoryName: item.subCategory.name,
     mainCategoryName: item.subCategory.mainCategory.name,
@@ -147,6 +160,15 @@ export const getContactMessagesData = cache(async (): Promise<ContactMessagesDat
       },
     }),
     prisma.contactMessage.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        message: true,
+        isRead: true,
+        createdAt: true,
+        readAt: true,
+      },
       orderBy: [
         {
           isRead: "asc",

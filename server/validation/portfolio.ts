@@ -2,9 +2,15 @@ import "server-only";
 
 import { z } from "zod";
 
+import { isSafeHttpUrl } from "@/lib/safe-url";
+
 export const mediaTypeEnum = z.enum(["video", "image"]);
 
 const emptyToUndefined = (value: unknown) => {
+  if (value === null) {
+    return undefined;
+  }
+
   if (typeof value !== "string") {
     return value;
   }
@@ -12,6 +18,17 @@ const emptyToUndefined = (value: unknown) => {
   const trimmed = value.trim();
   return trimmed === "" ? undefined : trimmed;
 };
+
+const optionalSafeUrl = (label: string) =>
+  z.preprocess(
+    emptyToUndefined,
+    z
+      .string()
+      .trim()
+      .url(`${label} must be valid`)
+      .refine(isSafeHttpUrl, `${label} must start with http:// or https://`)
+      .optional(),
+  );
 
 export const mainCategorySchema = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(50),
@@ -39,7 +56,12 @@ export const portfolioItemSchema = z
       emptyToUndefined,
       z.string().url("YouTube URL must be valid").optional(),
     ),
-    gradient: z.preprocess(emptyToUndefined, z.string().max(100).optional()),
+    externalLinkName: z.preprocess(
+      emptyToUndefined,
+      z.string().trim().min(2, "External link name must be at least 2 characters").max(50).optional(),
+    ),
+    externalLinkUrl: optionalSafeUrl("External link URL"),
+    externalLinkLogoUrl: optionalSafeUrl("External link logo URL"),
     subCategoryId: z.string().min(1, "Sub Category is required"),
   })
   .superRefine((data, ctx) => {
@@ -48,6 +70,22 @@ export const portfolioItemSchema = z
         code: "custom",
         path: ["youtubeUrl"],
         message: "YouTube URL is required for video items",
+      });
+    }
+
+    if (data.externalLinkUrl && !data.externalLinkName) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["externalLinkName"],
+        message: "External link name is required when URL is filled",
+      });
+    }
+
+    if ((data.externalLinkName || data.externalLinkLogoUrl) && !data.externalLinkUrl) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["externalLinkUrl"],
+        message: "External link URL is required when name or logo is filled",
       });
     }
   });

@@ -21,7 +21,9 @@ function parsePortfolioFormData(formData: FormData) {
     thumbnailUrl: getFormValue(formData, "thumbnailUrl"),
     mediaType,
     youtubeUrl: mediaType === "image" ? null : getFormValue(formData, "youtubeUrl"),
-    gradient: getFormValue(formData, "gradient"),
+    externalLinkName: getFormValue(formData, "externalLinkName"),
+    externalLinkUrl: getFormValue(formData, "externalLinkUrl"),
+    externalLinkLogoUrl: getFormValue(formData, "externalLinkLogoUrl"),
     subCategoryId: getFormValue(formData, "subCategoryId"),
   });
 }
@@ -43,7 +45,9 @@ export async function createPortfolioItem(formData: FormData) {
         thumbnailUrl: parsed.data.thumbnailUrl ?? null,
         mediaType: parsed.data.mediaType,
         youtubeUrl: parsed.data.youtubeUrl ?? null,
-        gradient: parsed.data.gradient ?? null,
+        externalLinkName: parsed.data.externalLinkName ?? null,
+        externalLinkUrl: parsed.data.externalLinkUrl ?? null,
+        externalLinkLogoUrl: parsed.data.externalLinkLogoUrl ?? null,
         subCategoryId: parsed.data.subCategoryId,
       },
     });
@@ -73,7 +77,9 @@ export async function updatePortfolioItem(id: string, formData: FormData) {
         thumbnailUrl: parsed.data.thumbnailUrl ?? null,
         mediaType: parsed.data.mediaType,
         youtubeUrl: parsed.data.youtubeUrl ?? null,
-        gradient: parsed.data.gradient ?? null,
+        externalLinkName: parsed.data.externalLinkName ?? null,
+        externalLinkUrl: parsed.data.externalLinkUrl ?? null,
+        externalLinkLogoUrl: parsed.data.externalLinkLogoUrl ?? null,
         subCategoryId: parsed.data.subCategoryId,
       },
     });

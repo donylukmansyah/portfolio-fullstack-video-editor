@@ -16,6 +16,7 @@ import {
   FeedbackAlert,
   selectClassName,
   SubmitButton,
+  labelClassName,
 } from "@/features/admin/components/dialogs/shared";
 import { useAdminDialog } from "@/features/admin/hooks/use-admin-dialog";
 
@@ -26,8 +27,68 @@ function PortfolioMediaHint({ mediaType }: { mediaType: "video" | "image" }) {
       : "Image items do not need a YouTube URL. Public cards will render clean without a play badge.";
 
   return (
-    <div className="rounded-base border-2 border-border bg-secondary-background px-4 py-3 text-sm text-foreground/75">
+    <div className="rounded-base border-2 border-border bg-secondary-background px-4 py-3 text-sm text-foreground/65">
       {copy}
+    </div>
+  );
+}
+
+function PortfolioExternalLinkFields({
+  defaultLogoUrl = "",
+  defaultName = "",
+  defaultUrl = "",
+  idPrefix,
+}: {
+  defaultLogoUrl?: string;
+  defaultName?: string;
+  defaultUrl?: string;
+  idPrefix: string;
+}) {
+  return (
+    <div className="grid gap-3 rounded-base border-2 border-border bg-secondary-background p-4">
+      <div>
+        <p className="font-heading text-sm text-foreground">External Link (optional)</p>
+        <p className="text-xs text-foreground/60">
+          Add a public badge. Leave Logo/Icon URL empty to use the default link icon.
+        </p>
+      </div>
+      <div className="grid gap-4 md:grid-cols-3">
+        <div>
+          <label className={labelClassName} htmlFor={`${idPrefix}-external-link-name`}>
+            Link Name
+          </label>
+          <Input
+            id={`${idPrefix}-external-link-name`}
+            name="externalLinkName"
+            defaultValue={defaultName}
+            placeholder="Behance"
+          />
+        </div>
+        <div>
+          <label className={labelClassName} htmlFor={`${idPrefix}-external-link-url`}>
+            Link URL
+          </label>
+          <Input
+            id={`${idPrefix}-external-link-url`}
+            name="externalLinkUrl"
+            defaultValue={defaultUrl}
+            placeholder="https://example.com/project"
+            type="url"
+          />
+        </div>
+        <div>
+          <label className={labelClassName} htmlFor={`${idPrefix}-external-link-logo-url`}>
+            Logo/Icon URL
+          </label>
+          <Input
+            id={`${idPrefix}-external-link-logo-url`}
+            name="externalLinkLogoUrl"
+            defaultValue={defaultLogoUrl}
+            placeholder="Optional, defaults to link icon"
+            type="url"
+          />
+        </div>
+      </div>
     </div>
   );
 }
@@ -71,20 +132,20 @@ export function PortfolioCreateDialog({
       open={open}
       onOpenChange={handleDialogChange}
     >
-      <form ref={formRef} onSubmit={handleSubmit} className="grid gap-4">
+      <form ref={formRef} onSubmit={handleSubmit} className="grid gap-5">
         <FeedbackAlert feedback={feedback} />
         <PortfolioMediaHint mediaType={mediaType} />
 
-        <fieldset className="grid gap-4" disabled={isPending}>
-          <div className="grid gap-4 md:grid-cols-2">
+        <fieldset className="grid gap-5" disabled={isPending}>
+          <div className="grid gap-5 md:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor="portfolio-create-title">
+              <label className={labelClassName} htmlFor="portfolio-create-title">
                 Title
               </label>
               <Input id="portfolio-create-title" name="title" placeholder="Project title" required />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor="portfolio-create-thumbnail-label">
+              <label className={labelClassName} htmlFor="portfolio-create-thumbnail-label">
                 Thumbnail Label
               </label>
               <Input
@@ -95,7 +156,7 @@ export function PortfolioCreateDialog({
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor="portfolio-create-sub-category">
+              <label className={labelClassName} htmlFor="portfolio-create-sub-category">
                 Sub Category
               </label>
               <select
@@ -114,7 +175,7 @@ export function PortfolioCreateDialog({
               </select>
             </div>
             <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor="portfolio-create-media-type">
+              <label className={labelClassName} htmlFor="portfolio-create-media-type">
                 Media Type
               </label>
               <select
@@ -129,7 +190,7 @@ export function PortfolioCreateDialog({
               </select>
             </div>
             <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor="portfolio-create-youtube-url">
+              <label className={labelClassName} htmlFor="portfolio-create-youtube-url">
                 YouTube URL
               </label>
               <Input
@@ -143,21 +204,12 @@ export function PortfolioCreateDialog({
                 disabled={mediaType === "image"}
               />
             </div>
-            <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor="portfolio-create-gradient">
-                Gradient (optional)
-              </label>
-              <Input
-                id="portfolio-create-gradient"
-                name="gradient"
-                placeholder="from-indigo-800 via-violet-700 to-purple-600"
-              />
-            </div>
           </div>
           <div>
-            <label className="mb-1 block text-sm font-heading">Thumbnail Upload</label>
+            <label className={labelClassName}>Thumbnail Upload</label>
             <ThumbnailUploadField name="thumbnailUrl" disabled={isPending} />
           </div>
+          <PortfolioExternalLinkFields idPrefix="portfolio-create" />
         </fieldset>
 
         <div className="flex justify-end">
@@ -222,20 +274,20 @@ export function PortfolioEditDialog({
       open={open}
       onOpenChange={handleDialogChange}
     >
-      <form onSubmit={handleSubmit} className="grid gap-4">
+      <form onSubmit={handleSubmit} className="grid gap-5">
         <FeedbackAlert feedback={feedback} />
         <PortfolioMediaHint mediaType={mediaType} />
 
-        <fieldset className="grid gap-4" disabled={isPending}>
-          <div className="grid gap-4 md:grid-cols-2">
+        <fieldset className="grid gap-5" disabled={isPending}>
+          <div className="grid gap-5 md:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor={`portfolio-title-${item.id}`}>
+              <label className={labelClassName} htmlFor={`portfolio-title-${item.id}`}>
                 Title
               </label>
               <Input id={`portfolio-title-${item.id}`} name="title" defaultValue={item.title} required />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor={`portfolio-thumbnail-label-${item.id}`}>
+              <label className={labelClassName} htmlFor={`portfolio-thumbnail-label-${item.id}`}>
                 Thumbnail Label
               </label>
               <Input
@@ -246,7 +298,7 @@ export function PortfolioEditDialog({
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor={`portfolio-sub-category-${item.id}`}>
+              <label className={labelClassName} htmlFor={`portfolio-sub-category-${item.id}`}>
                 Sub Category
               </label>
               <select
@@ -264,7 +316,7 @@ export function PortfolioEditDialog({
               </select>
             </div>
             <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor={`portfolio-media-type-${item.id}`}>
+              <label className={labelClassName} htmlFor={`portfolio-media-type-${item.id}`}>
                 Media Type
               </label>
               <select
@@ -279,7 +331,7 @@ export function PortfolioEditDialog({
               </select>
             </div>
             <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor={`portfolio-youtube-url-${item.id}`}>
+              <label className={labelClassName} htmlFor={`portfolio-youtube-url-${item.id}`}>
                 YouTube URL
               </label>
               <Input
@@ -294,25 +346,21 @@ export function PortfolioEditDialog({
                 disabled={mediaType === "image"}
               />
             </div>
-            <div>
-              <label className="mb-1 block text-sm font-heading" htmlFor={`portfolio-gradient-${item.id}`}>
-                Gradient (optional)
-              </label>
-              <Input
-                id={`portfolio-gradient-${item.id}`}
-                name="gradient"
-                defaultValue={item.gradient ?? ""}
-              />
-            </div>
           </div>
           <div>
-            <label className="mb-1 block text-sm font-heading">Thumbnail Upload</label>
+            <label className={labelClassName}>Thumbnail Upload</label>
             <ThumbnailUploadField
               name="thumbnailUrl"
               defaultValue={item.thumbnailUrl ?? ""}
               disabled={isPending}
             />
           </div>
+          <PortfolioExternalLinkFields
+            idPrefix={`portfolio-${item.id}`}
+            defaultName={item.externalLinkName ?? ""}
+            defaultUrl={item.externalLinkUrl ?? ""}
+            defaultLogoUrl={item.externalLinkLogoUrl ?? ""}
+          />
         </fieldset>
 
         <div className="flex flex-wrap justify-end gap-3">

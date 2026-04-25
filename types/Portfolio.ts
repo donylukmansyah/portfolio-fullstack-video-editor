@@ -8,7 +8,9 @@ export interface PortfolioItem {
   category?: string;
   subCategory?: string;
   youtubeUrl?: string | null;
-  gradient?: string | null;
+  externalLinkName?: string | null;
+  externalLinkUrl?: string | null;
+  externalLinkLogoUrl?: string | null;
   mediaType: "video" | "image";
 }
 

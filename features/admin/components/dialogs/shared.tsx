@@ -17,7 +17,9 @@ import {
 
 export const dialogClassName = "max-h-[90vh] overflow-y-auto sm:max-w-3xl";
 export const selectClassName =
-  "w-full rounded-base border-2 border-border bg-secondary-background px-3 py-2 text-sm outline-none";
+  "w-full rounded-base border-2 border-border bg-secondary-background px-3 py-2.5 text-sm font-base outline-none transition-colors focus:border-foreground";
+export const labelClassName = "mb-1.5 block text-xs font-heading uppercase tracking-wide text-foreground/60";
+export const fieldGroupClassName = "grid gap-5 md:grid-cols-2";
 
 export function DialogShell({
   children,
@@ -39,14 +41,16 @@ export function DialogShell({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button variant={triggerVariant}>{triggerLabel}</Button>
+        <Button variant={triggerVariant} size="sm">
+          {triggerLabel}
+        </Button>
       </DialogTrigger>
       <DialogContent className={dialogClassName}>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        {children}
+        <div className="mt-1">{children}</div>
       </DialogContent>
     </Dialog>
   );
@@ -99,7 +103,7 @@ export function DeleteButton({
   pendingLabel: string;
 }) {
   return (
-    <Button type="button" variant="reverse" disabled={isPending} onClick={onClick}>
+    <Button type="button" variant="default" disabled={isPending} onClick={onClick}>
       {isPending ? <LoaderCircle className="animate-spin" /> : <Trash2 />}
       {isPending ? pendingLabel : label}
     </Button>

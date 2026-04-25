@@ -51,7 +51,6 @@ export const portfolioItems: PortfolioItem[] = [
     subCategory: "Storytelling",
     mediaType: "video",
     youtubeUrl: "#",
-    gradient: "from-indigo-800 via-violet-700 to-purple-600",
   },
   {
     id: "2",
@@ -61,7 +60,6 @@ export const portfolioItems: PortfolioItem[] = [
     subCategory: "Storytelling",
     mediaType: "video",
     youtubeUrl: "#",
-    gradient: "from-rose-800 via-red-700 to-pink-600",
   },
   {
     id: "3",
@@ -71,7 +69,6 @@ export const portfolioItems: PortfolioItem[] = [
     subCategory: "Storytelling",
     mediaType: "video",
     youtubeUrl: "#",
-    gradient: "from-teal-800 via-emerald-700 to-green-600",
   },
   {
     id: "4",
@@ -81,7 +78,6 @@ export const portfolioItems: PortfolioItem[] = [
     subCategory: "Motion Graphic",
     mediaType: "video",
     youtubeUrl: "#",
-    gradient: "from-amber-800 via-orange-700 to-yellow-600",
   },
   {
     id: "5",
@@ -91,6 +87,5 @@ export const portfolioItems: PortfolioItem[] = [
     subCategory: "Motion Graphic",
     mediaType: "video",
     youtubeUrl: "#",
-    gradient: "from-cyan-800 via-sky-700 to-blue-600",
   },
 ];

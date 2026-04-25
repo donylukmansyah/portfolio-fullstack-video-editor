@@ -10,6 +10,7 @@ interface NeoModalProps {
   title?: string;
   children: React.ReactNode;
   className?: string;
+  topRightAction?: React.ReactNode;
 }
 
 /**
@@ -25,6 +26,7 @@ export function NeoModal({
   title,
   children,
   className = "max-w-md",
+  topRightAction,
 }: NeoModalProps) {
   const [shouldRender, setShouldRender] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -91,13 +93,16 @@ export function NeoModal({
         }`}
         style={{ animationFillMode: "forwards" }}
       >
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-base border-2 border-border bg-secondary-background text-foreground shadow-[2px_2px_0px_0px_var(--border)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none hover:bg-main hover:text-main-foreground z-20"
-          aria-label="Close modal"
-        >
-          <X size={18} strokeWidth={2.5} />
-        </button>
+        <div className="absolute top-3 right-3 flex items-center gap-2 z-20">
+          {topRightAction}
+          <button
+            onClick={onClose}
+            className="flex h-8 w-8 items-center justify-center rounded-base border-2 border-border bg-secondary-background text-foreground shadow-[2px_2px_0px_0px_var(--border)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none hover:bg-main hover:text-main-foreground"
+            aria-label="Close modal"
+          >
+            <X size={18} strokeWidth={2.5} />
+          </button>
+        </div>
 
         {title && (
           <h3 className="text-xl sm:text-2xl text-foreground text-center mb-6 px-4 leading-tight">

@@ -42,7 +42,9 @@ export type PortfolioRow = {
   thumbnailUrl: string | null;
   mediaType: "video" | "image";
   youtubeUrl: string | null;
-  gradient: string | null;
+  externalLinkName: string | null;
+  externalLinkUrl: string | null;
+  externalLinkLogoUrl: string | null;
   subCategoryId: string;
   subCategoryName: string;
   mainCategoryName: string;
