@@ -24,20 +24,20 @@ export const profileData: ProfileData = {
     {
       id: "tiktok",
       name: "TikTok",
-      url: "https://tiktok.com/@donylukmansyah",
+      url: "https://www.tiktok.com/@belajarpremiere",
       type: "tiktok",
     },
     {
       id: "instagram",
       name: "Instagram",
-      url: "https://instagram.com/donylukmansyah",
+      url: "https://www.instagram.com/donylukmansyah/",
       type: "instagram",
     },
     {
-      id: "website",
-      name: "Website",
-      url: "https://donylukmansyah.vercel.app",
-      type: "website",
+      id: "linkedin",
+      name: "LinkedIn",
+      url: "https://www.linkedin.com/in/donylukmansyah",
+      type: "linkedin",
     },
   ],
 };

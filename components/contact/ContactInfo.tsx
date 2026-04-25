@@ -19,7 +19,7 @@ export function ContactInfo() {
       </div>
 
       <a
-        href="mailto:donylukmansyah@gmail.com"
+        href="mailto:donylkmnsyh@gmail.com"
         className="neo-panel flex items-center gap-3 p-4 transition-all hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none group"
       >
         <div className="flex h-10 w-10 items-center justify-center rounded-base border-2 border-border bg-main shadow-[2px_2px_0px_0px_var(--border)] transition-transform group-hover:scale-105">
@@ -28,7 +28,7 @@ export function ContactInfo() {
         <div className="min-w-0">
           <p className="text-xs font-heading text-foreground/60">Email</p>
           <p className="truncate text-sm font-heading text-foreground">
-            donylukmansyah@gmail.com
+            donylkmnsyh@gmail.com
           </p>
         </div>
       </a>

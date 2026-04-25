@@ -35,7 +35,7 @@ export interface SocialLink {
   id: string;
   name: string;
   url: string;
-  type: "tiktok" | "instagram" | "website";
+  type: "tiktok" | "instagram" | "website" | "linkedin";
 }
 
 export interface ProfileData {

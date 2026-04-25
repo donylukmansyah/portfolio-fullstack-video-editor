@@ -19,6 +19,13 @@ if (supabaseUrl) {
 const nextConfig: NextConfig = {
   images: {
     remotePatterns,
+    // Prefer webp over avif to save on Vercel image optimization quota/processing time
+    formats: ["image/webp"],
+    // Reduce number of generated variants to conserve Vercel Hobby plan quota (5,000 max)
+    deviceSizes: [640, 828, 1200],
+    imageSizes: [16, 32, 64, 128, 256],
+    // Cache optimized images for 30 days to maximize cache hits
+    minimumCacheTTL: 2592000,
   },
 };
 

@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
 
 import * as React from "react"
@@ -42,12 +43,13 @@ function PaginationLink({
   isActive,
   size = "icon",
   ...props
-}: React.ComponentProps<"a"> & {
+}: React.ComponentProps<typeof Link> & {
   isActive?: boolean
   size?: "default" | "sm" | "lg" | "icon"
 }) {
   return (
-    <a
+    <Link
+      scroll={false}
       data-slot="pagination-link"
       aria-current={isActive ? "page" : undefined}
       className={cn(
@@ -71,12 +73,11 @@ function PaginationPrevious({
     <PaginationLink
       data-slot="pagination-previous"
       aria-label="Go to previous page"
-      size="default"
-      className={cn("gap-1 pl-2.5", className)}
+      size="icon"
+      className={className}
       {...props}
     >
-      <ChevronLeft className="size-4" />
-      <span>Previous</span>
+      <ChevronLeft strokeWidth={2.5} />
     </PaginationLink>
   )
 }
@@ -89,12 +90,11 @@ function PaginationNext({
     <PaginationLink
       data-slot="pagination-next"
       aria-label="Go to next page"
-      size="default"
-      className={cn("gap-1 pr-2.5", className)}
+      size="icon"
+      className={className}
       {...props}
     >
-      <span>Next</span>
-      <ChevronRight className="size-4" />
+      <ChevronRight strokeWidth={2.5} />
     </PaginationLink>
   )
 }

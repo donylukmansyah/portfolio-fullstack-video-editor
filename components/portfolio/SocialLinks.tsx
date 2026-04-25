@@ -1,5 +1,5 @@
 import { Globe } from "lucide-react";
-import { TikTokIcon, InstagramIcon } from "@/components/ui/Icons";
+import { TikTokIcon, InstagramIcon, LinkedInIcon } from "@/components/ui/Icons";
 import type { SocialLink } from "@/types/Portfolio";
 
 interface SocialLinksProps {
@@ -12,6 +12,8 @@ function SocialIcon({ type }: { type: SocialLink["type"] }) {
       return <TikTokIcon size={15} />;
     case "instagram":
       return <InstagramIcon size={15} />;
+    case "linkedin":
+      return <LinkedInIcon size={15} />;
     case "website":
       return <Globe size={15} strokeWidth={2.5} />;
     default:

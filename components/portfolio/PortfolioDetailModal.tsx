@@ -105,7 +105,7 @@ export default function PortfolioDetailModal({ items, selectedIndex, onClose }: 
                     className="absolute inset-0 h-full w-full"
                   />
                 ) : item.thumbnailUrl ? (
-                  <Image src={item.thumbnailUrl} alt={item.title} fill className="object-cover" />
+                  <Image src={item.thumbnailUrl} alt={item.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 896px" />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-main/30 to-background">
                     <Play className="h-16 w-16 text-main/50" />

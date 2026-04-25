@@ -4,7 +4,33 @@ import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
-import { uploadThumbnail } from "@/utils/supabase/client";
+
+const MAX_FILE_SIZE_MB = 5;
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif"];
+
+async function uploadThumbnailViaApi(
+  file: File,
+): Promise<{ url: string } | { error: string }> {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const res = await fetch("/api/admin/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    const json = await res.json();
+
+    if (!res.ok) {
+      return { error: json.error ?? "Upload failed." };
+    }
+
+    return { url: json.url };
+  } catch {
+    return { error: "Network error. Please check your connection and try again." };
+  }
+}
 
 export function ThumbnailUploadField({
   name,
@@ -19,6 +45,7 @@ export function ThumbnailUploadField({
   const [status, setStatus] = useState(
     defaultValue ? "Existing thumbnail will be kept until you upload a new one." : "No thumbnail uploaded yet.",
   );
+  const [statusType, setStatusType] = useState<"idle" | "error" | "success">("idle");
   const [uploading, setUploading] = useState(false);
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,16 +55,32 @@ export function ThumbnailUploadField({
       return;
     }
 
+    // Client-side validation for instant feedback
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      setStatus(`Unsupported file type. Allowed: JPEG, PNG, WebP, GIF, AVIF.`);
+      setStatusType("error");
+      return;
+    }
+
+    if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+      setStatus(`File exceeds the ${MAX_FILE_SIZE_MB} MB limit.`);
+      setStatusType("error");
+      return;
+    }
+
     setUploading(true);
-    setStatus("Uploading thumbnail...");
+    setStatus("Uploading thumbnail…");
+    setStatusType("idle");
 
-    const uploadedUrl = await uploadThumbnail(file);
+    const result = await uploadThumbnailViaApi(file);
 
-    if (uploadedUrl) {
-      setValue(uploadedUrl);
+    if ("url" in result) {
+      setValue(result.url);
       setStatus("Thumbnail uploaded successfully.");
+      setStatusType("success");
     } else {
-      setStatus("Thumbnail upload failed. Please try again.");
+      setStatus(result.error);
+      setStatusType("error");
     }
 
     setUploading(false);
@@ -53,7 +96,15 @@ export function ThumbnailUploadField({
         className="cursor-pointer"
         disabled={uploading || disabled}
       />
-      <div className="flex items-center gap-2 text-xs text-foreground/70">
+      <div
+        className={`flex items-center gap-2 text-xs ${
+          statusType === "error"
+            ? "text-red-500"
+            : statusType === "success"
+              ? "text-green-600"
+              : "text-foreground/70"
+        }`}
+      >
         {uploading ? <LoaderCircle className="size-3 animate-spin" /> : null}
         <p>{status}</p>
       </div>

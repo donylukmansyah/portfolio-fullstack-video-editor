@@ -10,7 +10,7 @@ export default function ResumeSection() {
         <span className="neo-label">Resume</span>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2">
+      <div className="grid gap-6 items-start sm:grid-cols-2">
         {/* Experience */}
         <ExperienceList />
 
