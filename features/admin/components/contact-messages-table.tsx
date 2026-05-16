@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Trash2 } from "lucide-react";
+import { Mail, MailCheck, MailOpen, Trash2 } from "lucide-react";
 
 import {
   deleteContactMessage,
@@ -51,8 +51,8 @@ export function ContactMessagesTable({
             pagination.paginatedItems.map((row) => (
               <TableRow
                 key={row.id}
-                className={`text-foreground hover:bg-secondary-background/60 ${
-                  row.isRead ? "bg-background" : "bg-main/5"
+                className={`text-foreground hover:bg-main/5 ${
+                  row.isRead ? "bg-background" : "bg-main/10"
                 }`}
               >
                 <TableCell>
@@ -77,12 +77,17 @@ export function ContactMessagesTable({
                 <TableCell>
                   <div className="min-w-[100px]">
                     <span
-                      className={`inline-flex items-center rounded-base border-2 border-border px-2.5 py-0.5 text-[10px] font-heading uppercase tracking-wide ${
+                      className={`inline-flex items-center gap-1.5 rounded-base border-2 border-border px-2.5 py-1 text-[10px] font-heading uppercase tracking-wide ${
                         row.isRead
                           ? "bg-secondary-background text-foreground/60"
                           : "bg-main text-main-foreground"
                       }`}
                     >
+                      {row.isRead ? (
+                        <MailOpen className="size-3" />
+                      ) : (
+                        <MailCheck className="size-3" />
+                      )}
                       {row.isRead ? "Read" : "Unread"}
                     </span>
                     {row.readAt ? (
@@ -107,6 +112,11 @@ export function ContactMessagesTable({
                       }
                     >
                       <Button type="submit" size="sm" variant="neutral">
+                        {row.isRead ? (
+                          <MailCheck className="size-3.5" />
+                        ) : (
+                          <MailOpen className="size-3.5" />
+                        )}
                         {row.isRead ? "Mark Unread" : "Mark Read"}
                       </Button>
                     </form>

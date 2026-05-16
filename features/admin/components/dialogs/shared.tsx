@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { AlertCircle, CheckCircle2, LoaderCircle, Trash2 } from "lucide-react";
+import { AlertCircle, CheckCircle2, LoaderCircle, Pencil, Plus, Trash2 } from "lucide-react";
 
 import type { AdminActionResult } from "@/features/admin/types";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -17,7 +17,7 @@ import {
 
 export const dialogClassName = "max-h-[90vh] overflow-y-auto sm:max-w-3xl";
 export const selectClassName =
-  "w-full rounded-base border-2 border-border bg-secondary-background px-3 py-2.5 text-sm font-base outline-none transition-colors focus:border-foreground";
+  "w-full rounded-base border-2 border-border bg-secondary-background px-3 py-2.5 text-sm font-base text-foreground outline-none transition-colors focus:border-foreground focus:ring-2 focus:ring-ring focus:ring-offset-2";
 export const labelClassName = "mb-1.5 block text-xs font-heading uppercase tracking-wide text-foreground/60";
 export const fieldGroupClassName = "grid gap-5 md:grid-cols-2";
 
@@ -42,15 +42,20 @@ export function DialogShell({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button variant={triggerVariant} size="sm">
+          {triggerVariant === "default" ? (
+            <Plus className="size-3.5" />
+          ) : (
+            <Pencil className="size-3.5" />
+          )}
           {triggerLabel}
         </Button>
       </DialogTrigger>
-      <DialogContent className={dialogClassName}>
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+      <DialogContent className={`${dialogClassName} p-0`}>
+        <DialogHeader className="border-b-2 border-border bg-main/10 p-5 pr-12">
+          <DialogTitle className="text-xl">{title}</DialogTitle>
+          <DialogDescription className="text-foreground/60">{description}</DialogDescription>
         </DialogHeader>
-        <div className="mt-1">{children}</div>
+        <div className="p-5">{children}</div>
       </DialogContent>
     </Dialog>
   );

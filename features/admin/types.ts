@@ -32,6 +32,7 @@ export type SubCategoryRow = {
 export type SubCategoryOption = {
   id: string;
   name: string;
+  mainCategoryId: string;
   mainCategoryName: string;
 };
 

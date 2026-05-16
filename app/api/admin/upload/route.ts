@@ -11,6 +11,14 @@ import {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
+const FILE_EXTENSIONS_BY_MIME_TYPE: Record<(typeof ALLOWED_MIME_TYPES)[number], string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+  "image/gif": "gif",
+  "image/avif": "avif",
+};
+
 function jsonError(message: string, status: number) {
   return NextResponse.json({ error: message }, { status });
 }
@@ -109,7 +117,7 @@ export async function POST(request: Request) {
   }
 
   // 7. Build a unique file path
-  const ext = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
+  const ext = FILE_EXTENSIONS_BY_MIME_TYPE[file.type as (typeof ALLOWED_MIME_TYPES)[number]];
   const uniqueName = `${crypto.randomUUID()}.${ext}`;
   const filePath = `${THUMBNAIL_FOLDER}/${uniqueName}`;
 

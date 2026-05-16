@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { ThemeProvider } from "@/hooks/useTheme";
 import { createPublicRootMetadata } from "@/lib/metadata/public";
 
 import "./globals.css";
@@ -13,6 +14,20 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = createPublicRootMetadata();
+
+/**
+ * Inline script that runs before React hydration to apply the saved
+ * theme class on <html>, preventing a flash of the wrong theme.
+ */
+const themeInitScript = `
+(function(){
+  try {
+    var t = localStorage.getItem('theme-preference') || 'system';
+    var dark = t === 'dark' || (t === 'system' && matchMedia('(prefers-color-scheme:dark)').matches);
+    document.documentElement.classList.toggle('dark', dark);
+  } catch(e) {}
+})();
+`;
 
 export default function RootLayout({
   children,
@@ -26,13 +41,18 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
         className={`${spaceGrotesk.className} h-full overflow-hidden flex flex-col`}
         suppressHydrationWarning
       >
-        <ScrollArea id="main-scroll-area" className="h-full w-full">
-          {children}
-        </ScrollArea>
+        <ThemeProvider>
+          <ScrollArea id="main-scroll-area" className="h-full w-full">
+            {children}
+          </ScrollArea>
+        </ThemeProvider>
       </body>
     </html>
   );

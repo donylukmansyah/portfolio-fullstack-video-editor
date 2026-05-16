@@ -1,8 +1,13 @@
 import "server-only";
 
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import type { Prisma } from "@prisma/client";
 
+import {
+  PORTFOLIO_CACHE_TAG,
+  PUBLIC_PORTFOLIO_REVALIDATE_SECONDS,
+} from "@/lib/cache";
 import prisma from "@/lib/prisma";
 import type { PortfolioCommandItem, PortfolioItem } from "@/types/Portfolio";
 
@@ -50,7 +55,7 @@ export function mapPortfolioItem(item: PortfolioRecord): PortfolioItem {
   };
 }
 
-export const getPortfolioCommandItems = cache(async (): Promise<PortfolioCommandItem[]> => {
+export const getPortfolioCommandItems = unstable_cache(async (): Promise<PortfolioCommandItem[]> => {
   const items = await prisma.portfolioItem.findMany({
     select: {
       id: true,
@@ -72,6 +77,9 @@ export const getPortfolioCommandItems = cache(async (): Promise<PortfolioCommand
     title: item.title,
     subCategory: item.subCategory.name,
   }));
+}, ["portfolio-command-items"], {
+  revalidate: PUBLIC_PORTFOLIO_REVALIDATE_SECONDS,
+  tags: [PORTFOLIO_CACHE_TAG],
 });
 
 export const getPortfolioItemsForAdmin = cache(async () => {

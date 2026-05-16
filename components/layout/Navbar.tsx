@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { ExternalLink, Search, Home, FileText, Mail } from "lucide-react";
+import ThemeToggle from "@/components/ui/theme-toggle";
 import { profileData } from "@/data/PortfolioData";
 import { useModal } from "@/hooks/useModal";
 import { useScrolledPast } from "@/hooks/useScrollPosition";
@@ -96,6 +97,7 @@ export default function Navbar({
         >
           <Search size={18} />
         </button>
+        <ThemeToggle size={18} className="h-10 w-10" />
         <button
           type="button"
           onClick={shareModal.open}
@@ -164,6 +166,9 @@ export default function Navbar({
             >
               <Search size={14} />
             </button>
+
+            {/* Theme toggle */}
+            <ThemeToggle size={14} className="h-8 w-8" />
 
             {/* Share button */}
             <button

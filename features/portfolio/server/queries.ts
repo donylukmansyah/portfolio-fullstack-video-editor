@@ -1,7 +1,12 @@
 import "server-only";
 
 import type { Prisma } from "@prisma/client";
+import { unstable_cache } from "next/cache";
 
+import {
+  PORTFOLIO_CACHE_TAG,
+  PUBLIC_PORTFOLIO_REVALIDATE_SECONDS,
+} from "@/lib/cache";
 import { mapPortfolioItem, portfolioItemSelect } from "@/lib/portfolio";
 import prisma from "@/lib/prisma";
 
@@ -16,6 +21,14 @@ export async function getPortfolioPageData({
   page,
   subCategorySlug,
 }: GetPortfolioPageDataOptions) {
+  return getCachedPortfolioPageData(categorySlug, page, subCategorySlug);
+}
+
+const getCachedPortfolioPageData = unstable_cache(async (
+  categorySlug: string,
+  page: number,
+  subCategorySlug: string,
+) => {
   const limit = 6;
   const currentPage = Number.isFinite(page) ? Math.max(page, 1) : 1;
   const whereClause: Prisma.PortfolioItemWhereInput = {};
@@ -73,4 +86,7 @@ export async function getPortfolioPageData({
     totalCount,
     totalPages: Math.ceil(totalCount / limit),
   };
-}
+}, ["portfolio-page-data"], {
+  revalidate: PUBLIC_PORTFOLIO_REVALIDATE_SECONDS,
+  tags: [PORTFOLIO_CACHE_TAG],
+});

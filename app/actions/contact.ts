@@ -29,6 +29,11 @@ function getSenderFingerprint(deviceId: string, userAgent: string | null) {
     .digest("hex");
 }
 
+function getClientIp(headersList: Headers) {
+  const forwardedFor = headersList.get("x-forwarded-for")?.split(",")[0]?.trim();
+  return forwardedFor || headersList.get("x-real-ip") || "unknown";
+}
+
 export async function submitContactMessage(
   _prevState: ContactFormState,
   formData: FormData,
@@ -82,7 +87,7 @@ export async function submitContactMessage(
     }
 
     const senderFingerprint = getSenderFingerprint(
-      deviceId,
+      `${deviceId}:${getClientIp(headersList)}`,
       headersList.get("user-agent"),
     );
 

@@ -22,14 +22,24 @@ export default function BackgroundDecorations({
 
   return (
     <div className="pointer-events-none z-0 overflow-hidden absolute inset-0 h-full w-full" aria-hidden="true">
-      {/* Grid pattern */}
-      <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
+      {/* Grid pattern — light mode */}
+      <svg className="absolute inset-0 h-full w-full dark:hidden" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <pattern id="neo-grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,0,0,0.06)" strokeWidth="1" />
+          <pattern id="neo-grid-light" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0,0,0,0.06)" strokeWidth="1.5" />
           </pattern>
         </defs>
-        <rect width="100%" height="100%" fill="url(#neo-grid)" />
+        <rect width="100%" height="100%" fill="url(#neo-grid-light)" />
+      </svg>
+
+      {/* Grid pattern — dark mode */}
+      <svg className="absolute inset-0 h-full w-full hidden dark:block" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="neo-grid-dark" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1.5" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#neo-grid-dark)" />
       </svg>
 
       {/* Top-left: Arrow/Cursor pointing inward */}

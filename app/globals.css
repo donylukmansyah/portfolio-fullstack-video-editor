@@ -224,4 +224,18 @@
 .portfolio-card:nth-child(5) { animation-delay: 320ms; }
 .portfolio-card:nth-child(6) { animation-delay: 400ms; }
 
+/* ─── Theme Toggle Circle Reveal (View Transitions API) ──── */
 
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}

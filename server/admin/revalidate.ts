@@ -1,6 +1,8 @@
 import "server-only";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
+
+import { PORTFOLIO_CACHE_TAG } from "@/lib/cache";
 
 const revalidatePaths = [
   "/",
@@ -12,4 +14,5 @@ const revalidatePaths = [
 
 export function revalidatePortfolioRoutes() {
   revalidatePaths.forEach((path) => revalidatePath(path));
+  revalidateTag(PORTFOLIO_CACHE_TAG, { expire: 0 });
 }

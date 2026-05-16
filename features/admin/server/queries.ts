@@ -117,6 +117,7 @@ export const getPortfolioManagerData = cache(async (): Promise<PortfolioManagerD
   const subCategoryOptions = subCategories.map((subCategory) => ({
     id: subCategory.id,
     name: subCategory.name,
+    mainCategoryId: subCategory.mainCategoryId,
     mainCategoryName: subCategory.mainCategory.name,
   }));
 

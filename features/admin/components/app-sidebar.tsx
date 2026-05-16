@@ -7,7 +7,7 @@ import {
   Inbox,
   LayoutDashboard,
   LogOut,
-  Sparkles,
+  SquareTerminal,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -41,19 +41,19 @@ const navItems = [
     title: "Dashboard",
     url: "/admin",
     icon: LayoutDashboard,
-    description: "Overview & stats",
+    description: "Overview",
   },
   {
     title: "Portfolio",
     url: "/admin/portfolios",
     icon: FolderKanban,
-    description: "Manage projects",
+    description: "CRUD content",
   },
   {
     title: "Messages",
     url: "/admin/messages",
     icon: Inbox,
-    description: "Contact inbox",
+    description: "Inbox",
   },
 ];
 
@@ -84,14 +84,17 @@ export function AppSidebar({ adminEmail, unreadMessages = 0 }: AppSidebarProps) 
       <SidebarHeader className="gap-3 p-3">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" className="cursor-default hover:bg-transparent hover:text-foreground hover:outline-transparent">
-              <div className="flex aspect-square size-8 items-center justify-center rounded-base border-2 border-border bg-main text-main-foreground">
-                <Sparkles className="size-4" />
+            <SidebarMenuButton
+              size="lg"
+              className="cursor-default data-[state=open]:bg-main data-[state=open]:text-main-foreground data-[state=open]:outline-border hover:bg-main hover:text-main-foreground"
+            >
+              <div className="flex aspect-square size-8 items-center justify-center rounded-base border-2 border-border bg-main text-main-foreground shadow-[2px_2px_0px_0px_var(--border)]">
+                <SquareTerminal className="size-4" />
               </div>
-              <div className="grid flex-1 text-left text-sm leading-tight">
+              <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
                 <span className="truncate font-heading">Portfolio Admin</span>
-                <span className="truncate text-xs text-foreground/60">
-                  Neobrutalism CMS
+                <span className="truncate text-xs">
+                  Admin CMS
                 </span>
               </div>
             </SidebarMenuButton>
@@ -102,7 +105,9 @@ export function AppSidebar({ adminEmail, unreadMessages = 0 }: AppSidebarProps) 
       {/* ─── Navigation ─── */}
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+          <SidebarGroupLabel className="group-data-[collapsible=icon]:hidden">
+            Manage
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => (
@@ -115,7 +120,12 @@ export function AppSidebar({ adminEmail, unreadMessages = 0 }: AppSidebarProps) 
                   >
                     <Link href={item.url}>
                       <item.icon />
-                      <span>{item.title}</span>
+                      <span className="grid group-data-[collapsible=icon]:hidden">
+                        <span>{item.title}</span>
+                        <span className="text-[11px] font-base text-current/65 group-data-[collapsible=icon]:hidden">
+                          {item.description}
+                        </span>
+                      </span>
                     </Link>
                   </SidebarMenuButton>
                   {item.title === "Messages" && unreadMessages > 0 && (
@@ -131,7 +141,9 @@ export function AppSidebar({ adminEmail, unreadMessages = 0 }: AppSidebarProps) 
 
         {/* ─── Quick links ─── */}
         <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-          <SidebarGroupLabel>Quick Links</SidebarGroupLabel>
+          <SidebarGroupLabel className="group-data-[collapsible=icon]:hidden">
+            Shortcut
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -157,16 +169,16 @@ export function AppSidebar({ adminEmail, unreadMessages = 0 }: AppSidebarProps) 
                   size="lg"
                   className="group-data-[state=collapsed]:hover:outline-0 group-data-[state=collapsed]:hover:bg-transparent overflow-visible"
                 >
-                  <div className="flex aspect-square size-8 items-center justify-center rounded-base border-2 border-border bg-main text-main-foreground text-xs font-heading">
+                  <div className="flex aspect-square size-8 items-center justify-center rounded-base border-2 border-border bg-main text-main-foreground text-xs font-heading shadow-[2px_2px_0px_0px_var(--border)]">
                     {initials}
                   </div>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
+                  <div className="grid flex-1 text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
                     <span className="truncate font-heading">Admin</span>
                     <span className="truncate text-xs text-foreground/60">
                       {adminEmail ?? "No email"}
                     </span>
                   </div>
-                  <ChevronsUpDown className="ml-auto size-4" />
+                  <ChevronsUpDown className="ml-auto size-4 group-data-[collapsible=icon]:hidden" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent

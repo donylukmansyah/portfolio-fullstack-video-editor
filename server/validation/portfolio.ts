@@ -49,12 +49,20 @@ export const portfolioItemSchema = z
       .max(50),
     thumbnailUrl: z.preprocess(
       emptyToUndefined,
-      z.string().url("Thumbnail URL must be valid").optional(),
+      z
+        .string()
+        .url("Thumbnail URL must be valid")
+        .refine(isSafeHttpUrl, "Thumbnail URL must start with http:// or https://")
+        .optional(),
     ),
     mediaType: mediaTypeEnum,
     youtubeUrl: z.preprocess(
       emptyToUndefined,
-      z.string().url("YouTube URL must be valid").optional(),
+      z
+        .string()
+        .url("YouTube URL must be valid")
+        .refine(isSafeHttpUrl, "YouTube URL must start with http:// or https://")
+        .optional(),
     ),
     externalLinkName: z.preprocess(
       emptyToUndefined,

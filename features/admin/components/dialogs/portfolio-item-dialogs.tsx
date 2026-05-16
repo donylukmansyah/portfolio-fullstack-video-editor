@@ -20,6 +20,32 @@ import {
 } from "@/features/admin/components/dialogs/shared";
 import { useAdminDialog } from "@/features/admin/hooks/use-admin-dialog";
 
+function getMainCategoryOptions(subCategories: SubCategoryOption[]) {
+  const options = new Map<string, string>();
+
+  subCategories.forEach((subCategory) => {
+    options.set(subCategory.mainCategoryId, subCategory.mainCategoryName);
+  });
+
+  return Array.from(options, ([id, name]) => ({ id, name }));
+}
+
+function getFilteredSubCategories({
+  mainCategoryId,
+  subCategories,
+}: {
+  mainCategoryId: string;
+  subCategories: SubCategoryOption[];
+}) {
+  if (!mainCategoryId) {
+    return [];
+  }
+
+  return subCategories.filter(
+    (subCategory) => subCategory.mainCategoryId === mainCategoryId,
+  );
+}
+
 function PortfolioMediaHint({ mediaType }: { mediaType: "video" | "image" }) {
   const copy =
     mediaType === "video"
@@ -100,6 +126,13 @@ export function PortfolioCreateDialog({
 }) {
   const formRef = useRef<HTMLFormElement>(null);
   const [mediaType, setMediaType] = useState<"video" | "image">("video");
+  const mainCategories = getMainCategoryOptions(subCategories);
+  const [selectedMainCategoryId, setSelectedMainCategoryId] = useState("");
+  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState("");
+  const filteredSubCategories = getFilteredSubCategories({
+    mainCategoryId: selectedMainCategoryId,
+    subCategories,
+  });
   const { feedback, handleOpenChange, intent, isPending, open, runAction } = useAdminDialog();
 
   const handleDialogChange = (nextOpen: boolean) => {
@@ -107,6 +140,8 @@ export function PortfolioCreateDialog({
 
     if (!nextOpen) {
       setMediaType("video");
+      setSelectedMainCategoryId("");
+      setSelectedSubCategoryId("");
     }
   };
 
@@ -121,6 +156,8 @@ export function PortfolioCreateDialog({
     runAction("save", () => createPortfolioItem(formData), () => {
       formRef.current?.reset();
       setMediaType("video");
+      setSelectedMainCategoryId("");
+      setSelectedSubCategoryId("");
     });
   };
 
@@ -156,6 +193,28 @@ export function PortfolioCreateDialog({
               />
             </div>
             <div>
+              <label className={labelClassName} htmlFor="portfolio-create-main-category">
+                Main Category
+              </label>
+              <select
+                id="portfolio-create-main-category"
+                className={selectClassName}
+                required
+                value={selectedMainCategoryId}
+                onChange={(event) => {
+                  setSelectedMainCategoryId(event.target.value);
+                  setSelectedSubCategoryId("");
+                }}
+              >
+                <option value="">Select main category</option>
+                {mainCategories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
               <label className={labelClassName} htmlFor="portfolio-create-sub-category">
                 Sub Category
               </label>
@@ -164,12 +223,18 @@ export function PortfolioCreateDialog({
                 name="subCategoryId"
                 className={selectClassName}
                 required
-                defaultValue=""
+                value={selectedSubCategoryId}
+                disabled={!selectedMainCategoryId}
+                onChange={(event) => setSelectedSubCategoryId(event.target.value)}
               >
-                <option value="">Select sub category</option>
-                {subCategories.map((subCategory) => (
+                <option value="">
+                  {selectedMainCategoryId
+                    ? "Select sub category"
+                    : "Select main category first"}
+                </option>
+                {filteredSubCategories.map((subCategory) => (
                   <option key={subCategory.id} value={subCategory.id}>
-                    {subCategory.mainCategoryName} / {subCategory.name}
+                    {subCategory.name}
                   </option>
                 ))}
               </select>
@@ -232,6 +297,20 @@ export function PortfolioEditDialog({
   subCategories: SubCategoryOption[];
 }) {
   const [mediaType, setMediaType] = useState<"video" | "image">(item.mediaType);
+  const mainCategories = getMainCategoryOptions(subCategories);
+  const initialSubCategory = subCategories.find(
+    (subCategory) => subCategory.id === item.subCategoryId,
+  );
+  const [selectedMainCategoryId, setSelectedMainCategoryId] = useState(
+    initialSubCategory?.mainCategoryId ?? "",
+  );
+  const [selectedSubCategoryId, setSelectedSubCategoryId] = useState(
+    item.subCategoryId,
+  );
+  const filteredSubCategories = getFilteredSubCategories({
+    mainCategoryId: selectedMainCategoryId,
+    subCategories,
+  });
   const { feedback, handleOpenChange, intent, isPending, open, runAction } = useAdminDialog();
 
   const handleDialogChange = (nextOpen: boolean) => {
@@ -239,6 +318,8 @@ export function PortfolioEditDialog({
 
     if (!nextOpen) {
       setMediaType(item.mediaType);
+      setSelectedMainCategoryId(initialSubCategory?.mainCategoryId ?? "");
+      setSelectedSubCategoryId(item.subCategoryId);
     }
   };
 
@@ -298,19 +379,48 @@ export function PortfolioEditDialog({
               />
             </div>
             <div>
+              <label className={labelClassName} htmlFor={`portfolio-main-category-${item.id}`}>
+                Main Category
+              </label>
+              <select
+                id={`portfolio-main-category-${item.id}`}
+                className={selectClassName}
+                value={selectedMainCategoryId}
+                required
+                onChange={(event) => {
+                  setSelectedMainCategoryId(event.target.value);
+                  setSelectedSubCategoryId("");
+                }}
+              >
+                <option value="">Select main category</option>
+                {mainCategories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
               <label className={labelClassName} htmlFor={`portfolio-sub-category-${item.id}`}>
                 Sub Category
               </label>
               <select
                 id={`portfolio-sub-category-${item.id}`}
                 name="subCategoryId"
-                defaultValue={item.subCategoryId}
+                value={selectedSubCategoryId}
                 className={selectClassName}
+                disabled={!selectedMainCategoryId}
                 required
+                onChange={(event) => setSelectedSubCategoryId(event.target.value)}
               >
-                {subCategories.map((subCategory) => (
+                <option value="">
+                  {selectedMainCategoryId
+                    ? "Select sub category"
+                    : "Select main category first"}
+                </option>
+                {filteredSubCategories.map((subCategory) => (
                   <option key={subCategory.id} value={subCategory.id}>
-                    {subCategory.mainCategoryName} / {subCategory.name}
+                    {subCategory.name}
                   </option>
                 ))}
               </select>

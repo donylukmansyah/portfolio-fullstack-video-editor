@@ -54,7 +54,7 @@ export function EmptyTableRow({
 // ─── Section count badge ────────────────────────────────────────
 export function SectionCountBadge({ count }: { count: number }) {
   return (
-    <div className="inline-flex items-center rounded-base border-2 border-border bg-secondary-background px-3 py-1.5 text-xs font-heading shadow-[2px_2px_0px_0px_var(--border)]">
+    <div className="inline-flex items-center rounded-base border-2 border-border bg-main/10 px-3 py-1.5 text-xs font-heading text-foreground shadow-[2px_2px_0px_0px_var(--border)]">
       {count} total
     </div>
   );
@@ -74,7 +74,7 @@ export function AdminStatStrip({
       {stats.map((stat) => (
         <div
           key={stat.label}
-          className="rounded-base border-2 border-border bg-secondary-background px-4 py-2.5 shadow-[2px_2px_0px_0px_var(--border)] transition-transform hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
+          className="rounded-base border-2 border-border bg-secondary-background px-4 py-2.5 shadow-[2px_2px_0px_0px_var(--border)] transition-all hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
         >
           <p className="text-[10px] font-heading uppercase tracking-[0.15em] text-foreground/50">
             {stat.label}
@@ -99,10 +99,11 @@ export function PageHeader({
   children?: ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
+    <div className="neo-panel p-5 sm:p-6">
+      <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
       <div className="space-y-2">
         {subtitle && (
-          <p className="text-[11px] font-heading uppercase tracking-[0.2em] text-foreground/45">
+          <p className="neo-label w-fit shadow-[2px_2px_0px_0px_var(--border)]">
             {subtitle}
           </p>
         )}
@@ -114,6 +115,7 @@ export function PageHeader({
         </p>
       </div>
       {children}
+      </div>
     </div>
   );
 }
@@ -137,10 +139,10 @@ export function ManagerSection({
   return (
     <section className="neo-panel overflow-hidden">
       {/* Section header */}
-      <div className="flex items-center justify-between gap-4 border-b-2 border-border bg-secondary-background px-5 py-4 sm:px-6">
+      <div className="flex items-center justify-between gap-4 border-b-2 border-border bg-main/10 px-5 py-4 sm:px-6">
         <div className="flex items-center gap-3 min-w-0">
           {Icon && (
-            <div className="flex size-9 shrink-0 items-center justify-center rounded-base border-2 border-border bg-main text-main-foreground">
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-base border-2 border-border bg-main text-main-foreground shadow-[2px_2px_0px_0px_var(--border)]">
               <Icon className="size-4" />
             </div>
           )}
@@ -204,6 +206,7 @@ export function AdminTablePagination({
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
+              href="#"
               onClick={(e) => {
                 e.preventDefault();
                 if (canGoPrevious) onPageChange(currentPage - 1);
@@ -220,6 +223,7 @@ export function AdminTablePagination({
             ) : (
               <PaginationItem key={page}>
                 <PaginationLink
+                  href="#"
                   isActive={page === currentPage}
                   onClick={(e) => {
                     e.preventDefault();
@@ -234,6 +238,7 @@ export function AdminTablePagination({
           )}
           <PaginationItem>
             <PaginationNext
+              href="#"
               onClick={(e) => {
                 e.preventDefault();
                 if (canGoNext) onPageChange(currentPage + 1);
