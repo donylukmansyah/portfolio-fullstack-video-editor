@@ -23,8 +23,14 @@ const trustedOrigins = [
   normalizeOrigin(process.env.VERCEL_PROJECT_PRODUCTION_URL),
 ].filter((origin): origin is string => Boolean(origin));
 
+const baseURL =
+  normalizeOrigin(process.env.BETTER_AUTH_URL) ??
+  normalizeOrigin(process.env.NEXT_PUBLIC_SITE_URL) ??
+  normalizeOrigin(process.env.VERCEL_PROJECT_PRODUCTION_URL);
+
 export const auth = betterAuth({
   appName: "Dony Lukmansyah Portfolio",
+  ...(baseURL ? { baseURL } : {}),
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
