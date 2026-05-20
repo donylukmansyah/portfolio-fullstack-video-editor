@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 interface FilterTabsProps {
@@ -13,10 +14,40 @@ export default function FilterTabs({
   onCategoryChange,
   className,
 }: FilterTabsProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll the active tab into the center of the container on mount or when activeCategory changes
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const container = containerRef.current;
+    const activeElement = container.querySelector('[aria-selected="true"]') as HTMLElement;
+    if (activeElement) {
+      // Use setTimeout to ensure DOM layouts are calculated (especially on fast mount/hydration)
+      const timer = setTimeout(() => {
+        activeElement.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center",
+        });
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [activeCategory]);
+
+  const handleTabClick = (e: React.MouseEvent<HTMLButtonElement>, category: string) => {
+    onCategoryChange(category);
+    e.currentTarget.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  };
+
   return (
     <div
+      ref={containerRef}
       className={cn(
-        "flex overflow-x-auto sm:overflow-visible pb-1 pr-2 sm:pb-0 sm:pr-0 sm:flex-wrap gap-2 no-scrollbar",
+        "flex overflow-x-auto sm:overflow-visible pb-1 pr-2 sm:pb-0 sm:pr-0 sm:flex-wrap gap-2 no-scrollbar scroll-smooth",
         className
       )}
       role="tablist"
@@ -25,7 +56,7 @@ export default function FilterTabs({
       {categories.map((category) => (
         <button
           key={category}
-          onClick={() => onCategoryChange(category)}
+          onClick={(e) => handleTabClick(e, category)}
           role="tab"
           aria-selected={activeCategory === category}
           id={`filter-tab-${category.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}

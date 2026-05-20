@@ -62,7 +62,7 @@ export default function PortfolioDetailModal({ items, selectedIndex, onClose }: 
             href={externalLinkUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group/link inline-flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-base border-2 border-border bg-white p-1 text-foreground shadow-[2px_2px_0px_0px_var(--border)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-main hover:text-main-foreground hover:shadow-none focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+            className="group/link inline-flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-base border-2 border-border bg-secondary-background p-1 text-foreground shadow-[2px_2px_0px_0px_var(--border)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:bg-main hover:text-main-foreground hover:shadow-none focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
             aria-label={`Open ${externalLinkLabel} in a new tab`}
             title={externalLinkLabel}
           >
@@ -122,7 +122,7 @@ export default function PortfolioDetailModal({ items, selectedIndex, onClose }: 
               <span className="inline-flex h-10 items-center justify-center rounded-base border-2 border-border bg-main px-4 text-xs font-bold text-main-foreground shadow-[2px_2px_0px_0px_var(--border)] whitespace-nowrap">
                 {item.category}
               </span>
-              <span className="hidden sm:inline-flex h-10 items-center justify-center rounded-base border-2 border-border bg-white px-4 text-xs font-bold text-foreground shadow-[2px_2px_0px_0px_var(--border)] whitespace-nowrap">
+              <span className="hidden sm:inline-flex h-10 items-center justify-center rounded-base border-2 border-border bg-secondary-background px-4 text-xs font-bold text-foreground shadow-[2px_2px_0px_0px_var(--border)] whitespace-nowrap">
                 {item.subCategory}
               </span>
             </div>

@@ -9,6 +9,8 @@ type ThemeToggleProps = {
   size?: number;
   /** Additional CSS class names */
   className?: string;
+  /** Visual variant of the button */
+  variant?: "default" | "mobile-floating";
 };
 
 /**
@@ -17,7 +19,7 @@ type ThemeToggleProps = {
  * Drop-in anywhere — it reads from the ThemeProvider context.
  * The sun/moon icons crossfade with a subtle rotation animation.
  */
-export default function ThemeToggle({ size = 14, className }: ThemeToggleProps) {
+export default function ThemeToggle({ size = 14, className, variant = "default" }: ThemeToggleProps) {
   const { resolvedTheme, mounted, toggleThemeWithTransition } = useTheme();
   const isDark = resolvedTheme === "dark";
 
@@ -25,11 +27,15 @@ export default function ThemeToggle({ size = 14, className }: ThemeToggleProps) 
     toggleThemeWithTransition(e.clientX, e.clientY);
   };
 
+  const shadowClasses = variant === "mobile-floating"
+    ? "shadow-shadow hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none"
+    : "shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none";
+
   return (
     <button
       type="button"
       onClick={handleClick}
-      className={`inline-flex items-center justify-center rounded-base border-2 border-border bg-secondary-background text-foreground shadow-[2px_2px_0px_0px_var(--border)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none hover:bg-main hover:text-main-foreground ${className ?? ""}`}
+      className={`inline-flex items-center justify-center rounded-base border-2 border-border bg-secondary-background text-foreground transition-all hover:bg-main hover:text-main-foreground ${shadowClasses} ${className ?? ""}`}
       title={isDark ? "Switch to light mode" : "Switch to dark mode"}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       id="theme-toggle-button"

@@ -97,7 +97,7 @@ export default function Navbar({
         >
           <Search size={18} />
         </button>
-        <ThemeToggle size={18} className="h-10 w-10" />
+        <ThemeToggle size={18} className="h-10 w-10" variant="mobile-floating" />
         <button
           type="button"
           onClick={shareModal.open}

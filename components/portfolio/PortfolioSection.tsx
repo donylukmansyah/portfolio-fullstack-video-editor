@@ -123,6 +123,10 @@ export default function PortfolioSection({
     }
   };
 
+  const handlePageChange = (page: number) => {
+    navigateWithTransition(getHref(createQueryString({ page: String(page) })));
+  };
+
   return (
     <section className="pb-6" id="portfolio-section">
       <div className="mb-5 flex items-center justify-between gap-3">
@@ -164,6 +168,12 @@ export default function PortfolioSection({
               <PaginationItem>
                 <PaginationPrevious 
                   href={currentPage > 1 ? getHref(createQueryString({ page: String(currentPage - 1) })) : "#"} 
+                  onClick={(e) => {
+                    if (currentPage > 1) {
+                      e.preventDefault();
+                      handlePageChange(currentPage - 1);
+                    }
+                  }}
                   className={currentPage <= 1 ? "pointer-events-none opacity-50" : ""}
                 />
               </PaginationItem>
@@ -172,6 +182,10 @@ export default function PortfolioSection({
                 <PaginationItem key={i}>
                   <PaginationLink 
                     href={getHref(createQueryString({ page: String(i + 1) }))}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handlePageChange(i + 1);
+                    }}
                     isActive={currentPage === i + 1}
                   >
                     {i + 1}
@@ -182,6 +196,12 @@ export default function PortfolioSection({
               <PaginationItem>
                 <PaginationNext 
                   href={currentPage < totalPages ? getHref(createQueryString({ page: String(currentPage + 1) })) : "#"}
+                  onClick={(e) => {
+                    if (currentPage < totalPages) {
+                      e.preventDefault();
+                      handlePageChange(currentPage + 1);
+                    }
+                  }}
                   className={currentPage >= totalPages ? "pointer-events-none opacity-50" : ""}
                 />
               </PaginationItem>

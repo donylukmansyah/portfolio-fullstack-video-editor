@@ -157,14 +157,24 @@
 
   .neo-btn {
     @apply inline-flex items-center justify-center rounded-base border-2 border-border bg-secondary-background px-4 py-2 font-heading text-sm text-foreground shadow-shadow transition-all;
-    @apply hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none;
     @apply active:translate-x-boxShadowX active:translate-y-boxShadowY active:shadow-none;
+  }
+
+  @media (hover: hover) {
+    .neo-btn:hover {
+      @apply translate-x-boxShadowX translate-y-boxShadowY shadow-none;
+    }
   }
 
   .neo-btn-main {
     @apply inline-flex items-center justify-center rounded-base border-2 border-border bg-main px-4 py-2 font-heading text-sm text-main-foreground shadow-shadow transition-all;
-    @apply hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none;
     @apply active:translate-x-boxShadowX active:translate-y-boxShadowY active:shadow-none;
+  }
+
+  @media (hover: hover) {
+    .neo-btn-main:hover {
+      @apply translate-x-boxShadowX translate-y-boxShadowY shadow-none;
+    }
   }
 }
 
