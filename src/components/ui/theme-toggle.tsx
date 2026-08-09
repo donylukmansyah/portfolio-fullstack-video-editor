@@ -20,6 +20,11 @@ type ThemeToggleProps = {
 export default function ThemeToggle({ size = 14, className }: ThemeToggleProps) {
   const { resolvedTheme, mounted, toggleThemeWithTransition } = useTheme();
   const isDark = resolvedTheme === "dark";
+  // Gate label with `mounted` like the icons: the server always renders
+  // the light-default label; keep that until mount so hydration matches
+  // (resolvedTheme diverges once the client reads localStorage/system).
+  const label =
+    mounted && isDark ? "Switch to light mode" : "Switch to dark mode";
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     toggleThemeWithTransition(e.currentTarget);
@@ -30,8 +35,8 @@ export default function ThemeToggle({ size = 14, className }: ThemeToggleProps) 
       type="button"
       onClick={handleClick}
       className={`neo-icon ${className ?? ""}`}
-      title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      title={label}
+      aria-label={label}
       id="theme-toggle-button"
     >
       <span className="relative flex items-center justify-center">
