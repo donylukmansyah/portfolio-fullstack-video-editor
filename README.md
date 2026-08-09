@@ -1,95 +1,141 @@
-# Portfolio - Fullstack Video Editor
+<div align="center">
 
-A modern, dynamic portfolio website designed for a video editor, showcasing projects, skills, and professional experience. Built as a complete fullstack application with a secure admin dashboard for content management.
+# 🎬 Dony Lukmansyah — Portfolio
 
-## 🚀 Features
+**Fullstack portfolio for a Video Editor & Motion Designer** — neobrutalism UI, smooth animations, and a secure admin dashboard to manage everything from one place.
 
-- **Project Showcase**: Beautifully crafted portfolio cards to display video editing and image projects.
-- **Filtering System**: Multi-level filtering (Main Category -> Sub-Category) to easily navigate through different types of content.
-- **Neobrutalism Design**: Trendy and engaging UI with modern design aesthetics, including dynamic animations, hover effects, and a custom scrollbar.
-- **Admin Dashboard**: Secure backend portal to manage portfolio items, categories, and view contact messages.
-- **Responsive Layout**: Fully responsive design ensuring a seamless experience across desktop, tablet, and mobile devices.
-- **Social Sharing**: Built-in share links with polished UI and copy-to-clipboard functionality.
-- **Contact System**: Built-in contact form with rate-limiting and device fingerprinting.
+![Next.js](https://img.shields.io/badge/Next.js%2016-000000?style=flat-square&logo=next.js&logoColor=white)
+![React 19](https://img.shields.io/badge/React%2019-61DAFB?style=flat-square&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Tailwind v4](https://img.shields.io/badge/Tailwind%20CSS%20v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![Prisma 7](https://img.shields.io/badge/Prisma%207-2D3748?style=flat-square&logo=prisma&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![Better Auth](https://img.shields.io/badge/Better%20Auth-4F46E5?style=flat-square)
+![MIT License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+
+</div>
+
+## 📸 Screenshots
+
+| Light mode | Dark mode |
+|---|---|
+| ![Home](docs/screenshots/home.png) | ![Home dark](docs/screenshots/home-dark.png) |
+
+| Portfolio detail | Contact | Resume |
+|---|---|---|
+| ![Portfolio modal](docs/screenshots/portfolio-modal.png) | ![Contact](docs/screenshots/contact.png) | ![Resume](docs/screenshots/resume.png) |
+
+## ✨ Features
+
+- **Neobrutalism design** — chunky borders, hard shadows, bold colors, playful press animations
+- **Dark / light mode** — persisted preference with a circle-reveal View Transition
+- **Project showcase** — animated portfolio cards with image and embedded YouTube video support
+- **Multi-level filtering** — main category → sub-category with client-side transitions and pagination
+- **Admin dashboard** — full CRUD for portfolio items, categories (main/sub), and contact inbox
+- **Contact form** — honeypot, rate limiting, and device fingerprinting against spam
+- **Search** — Cmd/Ctrl+K command palette to jump straight to any project
+- **Share modal** — QR code + copy-to-clipboard short link
+- **Reduced motion support** — `prefers-reduced-motion` respected across all animations
+- **SEO ready** — metadata, sitemap, robots.txt, OG/Twitter images
 
 ## 🛠️ Tech Stack
 
-- **Framework:** Next.js (App Router)
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS (v4) / Neobrutalism theme
-- **Database:** PostgreSQL (Supabase)
-- **ORM:** Prisma
-- **Authentication:** Better Auth
-- **Validation:** Zod
-- **Components:** shadcn/ui & Radix UI
+| Layer | Tech |
+|---|---|
+| Framework | Next.js (App Router, `src/` feature-based) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4, shadcn/ui + Radix UI, tw-animate-css |
+| Database | PostgreSQL (Supabase), Prisma 7 |
+| Auth | Better Auth (email/password, DB-backed rate limiting) |
+| Storage | Supabase Storage (server-side, service role) |
+| Validation | Zod |
+| Icons | lucide-react |
 
-## 💻 Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
 - Node.js 20+
-- A Supabase account (for database and storage)
-- PostgreSQL database
+- A Supabase project (Postgres + Storage)
+- pnpm (or npm)
 
-### 1. Clone & Install
+### 1. Install
 
 ```bash
-npm install
-# or
+git clone https://github.com/donylukmansyah/portfolio-fullstack-video-editor.git
+cd portfolio-fullstack-video-editor
 pnpm install
 ```
 
 ### 2. Environment Variables
 
-Create a `.env` file based on `.env.example`:
-
 ```bash
 cp .env.example .env
 ```
 
-Fill in the required variables:
-- `DATABASE_URL` and `DIRECT_URL`: Your Supabase PostgreSQL connection strings.
-- `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: From your Supabase project settings.
-- `SUPABASE_SERVICE_ROLE_KEY`: For backend storage operations.
-- `BETTER_AUTH_SECRET`: A 32-character random string.
-- `BETTER_AUTH_URL`: `http://localhost:3000` (change for production).
-- `NEXT_PUBLIC_SITE_URL`: Your production URL.
-- `ADMIN_EMAIL` and `ADMIN_PASSWORD`: Credentials for the initial admin account.
+Fill in the required values:
 
-### 3. Database Setup
+| Variable | Description |
+|---|---|
+| `DATABASE_URL` | Supabase pooled connection string |
+| `DIRECT_URL` | Supabase direct connection (for Prisma CLI) |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase publishable key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Server-only key for storage uploads |
+| `BETTER_AUTH_SECRET` | 32-char random secret |
+| `BETTER_AUTH_URL` | `http://localhost:3000` (dev) / your production URL |
+| `NEXT_PUBLIC_SITE_URL` | Production URL |
+| `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Initial admin credentials |
+| `ENABLE_ADMIN_BOOTSTRAP` | `true` during setup, **disable in production** |
 
-Generate the Prisma client and push the schema to your database:
-
-```bash
-npx prisma generate
-npx prisma db push
-```
-
-### 4. Run Development Server
+### 3. Database
 
 ```bash
-npm run dev
-# or
-pnpm dev
+pnpm db:generate
+pnpm db:migrate        # dev
+pnpm db:migrate deploy # existing deployment
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-The admin dashboard is available at `/admin`.
+### 4. Run
 
-## ☁️ Deployment (Vercel)
+```bash
+pnpm dev        # http://localhost:3000
+pnpm build      # production build
+pnpm start      # serve production build
+pnpm lint       # eslint
+```
 
-This application is optimized for deployment on Vercel's Hobby (Free) tier:
+### 5. Create the admin account
 
-1. Push your code to GitHub/GitLab.
-2. Import the project in Vercel.
-3. Add all the environment variables from your `.env` file to the Vercel project settings.
-4. Update `BETTER_AUTH_URL` and `NEXT_PUBLIC_SITE_URL` to match your Vercel domain.
-5. Deploy! The `postinstall` script will automatically generate the Prisma client during the build process.
+With `ENABLE_ADMIN_BOOTSTRAP="true"`, POST to `/api/admin/bootstrap` with `{ "email": "ADMIN_EMAIL", "password": "ADMIN_PASSWORD" }`, then log in at `/admin`.
 
-*Note: Image optimization limits are configured to stay within Vercel's 5,000 monthly transformations quota.*
+## 📁 Project Structure
 
-## ✨ Author
+Feature-based App Router architecture — everything a domain needs lives in its own folder:
 
-**Dony Lukmansyah**
+```
+src/
+├── app/          # Route tree only (pages call feature modules)
+├── components/   # ui/ (shadcn primitives) + layout/ (Navbar, PublicShell, Footer)
+├── features/     # portfolio, admin, contact, resume, auth
+│   └── <domain>/ # types.ts, schema.ts, server/, actions/, components/, hooks/
+├── server/       # infra adapters (better-auth, prisma, supabase storage, cache tags)
+├── shared/       # cross-cutting hooks & utils
+└── proxy.ts      # middleware (admin route guard)
+```
 
-- GitHub: [@donylukmansyah](https://github.com/donylukmansyah)
+## 🔒 Security
+
+- Triple admin guard: middleware matcher + session check + per-action assertion
+- Server-only env secrets (`server-only` import), service-role key never reaches the client
+- CSP, HSTS, and other security headers via `next.config.ts`
+- Constant-time admin bootstrap comparison + disabled by default in production
+- Spam protection on the contact form (honeypot, rate limit, fingerprint)
+
+## 📜 License
+
+MIT — free to use, clone, and remix. See [LICENSE](LICENSE).
+
+---
+
+<p align="center">Built with ❤️ by <a href="https://github.com/donylukmansyah">Dony Lukmansyah</a></p>
