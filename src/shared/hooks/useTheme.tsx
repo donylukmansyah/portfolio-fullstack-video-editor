@@ -9,6 +9,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
+import { flushSync } from "react-dom";
 
 type Theme = "light" | "dark" | "system";
 type ResolvedTheme = "light" | "dark";
@@ -25,13 +26,13 @@ type ThemeContextValue = {
   /** Convenience: toggle between light ↔ dark (ignores system) */
   toggleTheme: () => void;
   /**
-   * Toggle with a circle-reveal transition originating from the given
-   * screen coordinates (typically the click position of the toggle button).
+   * Toggle with a circle-reveal transition anchored at the toggle button
+   * (the circle grows from the button's center).
    *
    * Uses the View Transitions API where supported; falls back to an
    * instant toggle otherwise.
    */
-  toggleThemeWithTransition: (x: number, y: number) => void;
+  toggleThemeWithTransition: (anchor: HTMLElement) => void;
 };
 
 const STORAGE_KEY = "theme-preference";
@@ -75,12 +76,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const resolvedTheme = resolveTheme(theme);
 
-  // Apply class on theme changes (after mount)
-  useEffect(() => {
-    if (!mounted) return;
-    applyTheme(resolvedTheme);
-  }, [resolvedTheme, mounted]);
-
   // Listen for system preference changes when in "system" mode
   useEffect(() => {
     if (theme !== "system") return;
@@ -91,22 +86,32 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return () => mql.removeEventListener("change", handler);
   }, [theme]);
 
-  const setTheme = useCallback((next: Theme) => {
+  /**
+   * Commit a new theme preference synchronously: updates React state,
+   * persists to localStorage, and applies the `dark` class on <html>
+   * right away (NOT deferred to an effect). This guarantees the DOM is
+   * fully updated by the time `startViewTransition` takes its snapshot,
+   * which is what makes the circle reveal actually animate instead of
+   * flashing the old theme.
+   */
+  const commitTheme = useCallback((next: Theme) => {
     setThemeState(next);
     localStorage.setItem(STORAGE_KEY, next);
+    applyTheme(resolveTheme(next));
   }, []);
 
+  const setTheme = useCallback(
+    (next: Theme) => commitTheme(next),
+    [commitTheme]
+  );
+
   const toggleTheme = useCallback(() => {
-    setThemeState((prev) => {
-      const next = resolveTheme(prev) === "dark" ? "light" : "dark";
-      localStorage.setItem(STORAGE_KEY, next);
-      return next;
-    });
-  }, []);
+    commitTheme(resolveTheme(theme) === "dark" ? "light" : "dark");
+  }, [commitTheme, theme]);
 
   // ── Circle-reveal transition using View Transitions API ──
   const toggleThemeWithTransition = useCallback(
-    (x: number, y: number) => {
+    (anchor: HTMLElement) => {
       // Fallback: instant toggle if View Transitions API is not available
       const doc = document as Document & {
         startViewTransition?: (cb: () => void) => {
@@ -114,19 +119,32 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         };
       };
 
-      if (!doc.startViewTransition) {
+      if (
+        !doc.startViewTransition ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
         toggleTheme();
         return;
       }
 
-      // Calculate radius needed to cover the entire viewport from (x, y)
+      // Anchor the circle to the toggle button's center
+      const rect = anchor.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+
+      // Radius needed to cover the entire viewport from (x, y)
       const endRadius = Math.hypot(
         Math.max(x, window.innerWidth - x),
         Math.max(y, window.innerHeight - y)
       );
 
       const transition = doc.startViewTransition(() => {
-        toggleTheme();
+        // flushSync makes React commit the DOM synchronously so the browser
+        // captures the NEW theme in its snapshot. Without it the snapshot is
+        // taken before the update and the reveal animates nothing.
+        flushSync(() => {
+          commitTheme(resolveTheme(theme) === "dark" ? "light" : "dark");
+        });
       });
 
       transition.ready.then(() => {
@@ -139,13 +157,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
           },
           {
             duration: 500,
-            easing: "ease-in-out",
+            easing: "ease-in",
             pseudoElement: "::view-transition-new(root)",
           }
         );
       });
     },
-    [toggleTheme]
+    [commitTheme, theme, toggleTheme]
   );
 
   const value = useMemo(

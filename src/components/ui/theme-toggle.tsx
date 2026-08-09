@@ -22,7 +22,7 @@ export default function ThemeToggle({ size = 14, className }: ThemeToggleProps) 
   const isDark = resolvedTheme === "dark";
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    toggleThemeWithTransition(e.clientX, e.clientY);
+    toggleThemeWithTransition(e.currentTarget);
   };
 
   return (
