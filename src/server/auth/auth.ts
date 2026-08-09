@@ -42,7 +42,8 @@ export const auth = betterAuth({
     enabled: true,
     window: 60,
     max: 60,
-    storage: "memory",
+    // DB-backed so the limit holds across serverless instances (memory is per-instance)
+    storage: "database",
   },
   advanced: {
     useSecureCookies: process.env.NODE_ENV === "production",

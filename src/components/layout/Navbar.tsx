@@ -10,6 +10,12 @@ import { profileData } from "@/features/portfolio/data";
 import { useModal } from "@/shared/hooks/useModal";
 import { useScrolledPast } from "@/shared/hooks/useScrollPosition";
 import ShareModal from "@/features/portfolio/components/ShareModal";
+
+const smoothScrollTo = (el: HTMLElement) =>
+  el.scrollIntoView({
+    behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    block: "center",
+  });
 import type { PortfolioCommandItem } from "@/features/portfolio/types";
 import {
   CommandDialog,
@@ -81,10 +87,10 @@ export default function Navbar({
     <>
       {/* ── Mobile-only: floating buttons (visible before scroll) ── */}
       <div
-        className={`fixed top-4 right-4 z-50 sm:hidden flex items-center gap-2 transition-all duration-300 ease-out ${
+        className={`fixed top-4 right-4 z-50 sm:hidden flex items-center gap-2 transition-[opacity,transform,visibility] duration-300 ease-out ${
           scrolled
-            ? "opacity-0 -translate-y-4 pointer-events-none"
-            : "opacity-100 translate-y-0"
+            ? "opacity-0 -translate-y-4 pointer-events-none invisible [transition-delay:0s,0s,300ms]"
+            : "opacity-100 translate-y-0 visible [transition-delay:0s,0s,0s]"
         }`}
       >
         <button
@@ -112,12 +118,12 @@ export default function Navbar({
 
       {/* ── Full navbar ── */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 w-full px-4 pt-3 sm:px-6 transition-all duration-300 ease-out
-          sm:translate-y-0 sm:opacity-100 sm:pointer-events-auto
+        className={`fixed top-0 left-0 right-0 z-50 w-full px-4 pt-3 sm:px-6 transition-[opacity,transform,visibility] duration-300 ease-out
+          sm:translate-y-0 sm:opacity-100 sm:pointer-events-auto sm:visible sm:[transition-delay:0s]
           ${
             scrolled
-              ? "translate-y-0 opacity-100"
-              : "-translate-y-full opacity-0 pointer-events-none"
+              ? "translate-y-0 opacity-100 visible [transition-delay:0s,0s,0s]"
+              : "-translate-y-full opacity-0 pointer-events-none invisible [transition-delay:0s,0s,300ms]"
           }`}
       >
         <div className="mx-auto flex max-w-[860px] items-center justify-between gap-3 rounded-base border-2 border-border bg-secondary-background px-4 py-3 shadow-shadow">
@@ -233,7 +239,7 @@ export default function Navbar({
                     setTimeout(() => {
                       const el = document.getElementById(`portfolio-item-${item.id}`);
                       if (el) {
-                        el.scrollIntoView({ behavior: "smooth", block: "center" });
+                        smoothScrollTo(el);
                         el.classList.add("ring-2", "ring-main", "ring-offset-2");
                         setTimeout(() => {
                           el.classList.remove("ring-2", "ring-main", "ring-offset-2");
@@ -243,7 +249,7 @@ export default function Navbar({
                   } else {
                     const el = document.getElementById(`portfolio-item-${item.id}`);
                     if (el) {
-                      el.scrollIntoView({ behavior: "smooth", block: "center" });
+                      smoothScrollTo(el);
                       el.classList.add("ring-2", "ring-main", "ring-offset-2");
                       setTimeout(() => {
                         el.classList.remove("ring-2", "ring-main", "ring-offset-2");

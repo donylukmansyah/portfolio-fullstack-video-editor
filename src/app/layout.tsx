@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollReset } from "@/components/layout/ScrollReset";
 import { ThemeProvider } from "@/shared/hooks/useTheme";
 import { createPublicRootMetadata } from "@/server/metadata/public";
 
@@ -9,7 +10,7 @@ import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600", "700"],
   variable: "--font-space-grotesk",
 });
 
@@ -50,6 +51,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <ScrollArea id="main-scroll-area" className="h-full w-full">
+            <ScrollReset />
             {children}
           </ScrollArea>
         </ThemeProvider>

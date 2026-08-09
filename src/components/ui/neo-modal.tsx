@@ -31,17 +31,28 @@ export function NeoModal({
   const [shouldRender, setShouldRender] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const prevIsOpen = useRef(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const previouslyFocused = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (isOpen && !prevIsOpen.current) {
       setShouldRender(true);
       setIsClosing(false);
       document.body.style.overflow = "hidden";
+      previouslyFocused.current = document.activeElement as HTMLElement | null;
     } else if (!isOpen && prevIsOpen.current) {
       setIsClosing(true);
     }
     prevIsOpen.current = isOpen;
   }, [isOpen]);
+
+  // Grab focus on open so keyboard users land inside the dialog.
+  useEffect(() => {
+    if (shouldRender && !isClosing) {
+      closeButtonRef.current?.focus();
+    }
+  }, [shouldRender, isClosing]);
 
   // Clean up on unmount
   useEffect(() => {
@@ -50,14 +61,33 @@ export function NeoModal({
     };
   }, []);
 
-  // Escape key
+  // Escape key + focus trap
   useEffect(() => {
     if (!shouldRender) return;
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const panel = panelRef.current;
+      if (!panel) return;
+      const focusables = panel.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
-    window.addEventListener("keydown", handleEscape);
-    return () => window.removeEventListener("keydown", handleEscape);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [shouldRender, onClose]);
 
   const handleAnimationEnd = useCallback(() => {
@@ -65,6 +95,9 @@ export function NeoModal({
       setShouldRender(false);
       setIsClosing(false);
       document.body.style.overflow = "unset";
+      // Return focus to whatever opened the dialog.
+      previouslyFocused.current?.focus();
+      previouslyFocused.current = null;
     }
   }, [isClosing]);
 
@@ -85,6 +118,10 @@ export function NeoModal({
 
       {/* Modal Box */}
       <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title ?? "Dialog"}
         onAnimationEnd={handleAnimationEnd}
         className={`relative w-full ${className} max-h-[90vh] overflow-y-auto rounded-base border-[3px] border-border bg-secondary-background shadow-[4px_4px_0px_0px_var(--border)] flex flex-col p-6 sm:p-8 ${
           isClosing
@@ -96,6 +133,7 @@ export function NeoModal({
         <div className="absolute top-3 right-3 flex items-center gap-2 z-20">
           {topRightAction}
           <button
+            ref={closeButtonRef}
             onClick={onClose}
             className="neo-icon h-8 w-8"
             aria-label="Close modal"

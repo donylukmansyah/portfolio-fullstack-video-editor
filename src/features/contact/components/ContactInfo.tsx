@@ -8,9 +8,9 @@ export function ContactInfo() {
           <div className="flex h-8 w-8 items-center justify-center rounded-base border-2 border-border bg-main shadow-[2px_2px_0px_0px_var(--border)]">
             <MessageSquare size={16} className="text-main-foreground" />
           </div>
-          <h3 className="text-lg font-heading text-foreground">
+          <h2 className="text-lg font-heading text-foreground">
             Let&apos;s Talk
-          </h3>
+          </h2>
         </div>
         <p className="text-[13px] leading-relaxed text-foreground/80">
           Have a project in mind? Want to collaborate? Or just want to say

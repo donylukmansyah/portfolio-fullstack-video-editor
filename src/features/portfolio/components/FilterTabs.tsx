@@ -1,6 +1,9 @@
 import { useEffect, useRef } from "react";
 import { cn } from "@/shared/utils";
 
+const scrollBehavior = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+
 interface FilterTabsProps {
   categories: string[];
   activeCategory: string;
@@ -25,7 +28,7 @@ export default function FilterTabs({
       // Use setTimeout to ensure DOM layouts are calculated (especially on fast mount/hydration)
       const timer = setTimeout(() => {
         activeElement.scrollIntoView({
-          behavior: "smooth",
+          behavior: scrollBehavior(),
           block: "nearest",
           inline: "center",
         });
@@ -37,7 +40,7 @@ export default function FilterTabs({
   const handleTabClick = (e: React.MouseEvent<HTMLButtonElement>, category: string) => {
     onCategoryChange(category);
     e.currentTarget.scrollIntoView({
-      behavior: "smooth",
+      behavior: scrollBehavior(),
       block: "nearest",
       inline: "center",
     });

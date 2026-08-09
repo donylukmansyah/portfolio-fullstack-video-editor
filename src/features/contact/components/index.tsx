@@ -6,7 +6,7 @@ export default function ContactSection() {
     <section className="pb-10 pt-6" id="contact">
       {/* Section header */}
       <div className="mb-6 flex items-center justify-between gap-3">
-        <span className="neo-label">Contact</span>
+        <h1 className="neo-label">Contact</h1>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-5">

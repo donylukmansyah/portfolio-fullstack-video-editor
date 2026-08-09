@@ -23,7 +23,8 @@ function getPositivePage(value: string | string[] | undefined) {
   }
 
   const parsed = Number.parseInt(value, 10);
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+  // Clamp upper bound: pagination beyond what the UI can reach is a wasted query
+  return Number.isFinite(parsed) && parsed > 0 ? Math.min(parsed, 1000) : 1;
 }
 
 export default async function Home({ searchParams }: Props) {

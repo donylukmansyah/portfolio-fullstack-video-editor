@@ -4,6 +4,22 @@ const remotePatterns: NonNullable<NextConfig["images"]>["remotePatterns"] = [];
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const securityHeaders = [
   {
+    key: "Content-Security-Policy",
+    value: [
+      "default-src 'self'",
+      // Inline needed for the theme init script + Next RSC bootstrap payloads.
+      "script-src 'self' 'unsafe-inline'" +
+        (process.env.NODE_ENV !== "production" ? " 'unsafe-eval'" : ""),
+      "style-src 'self' 'unsafe-inline'",
+      `img-src 'self' data: blob: ${supabaseUrl ?? ""} https://api.qrserver.com`,
+      "frame-src https://www.youtube.com https://www.youtube-nocookie.com",
+      `connect-src 'self'${supabaseUrl ? ` ${supabaseUrl}` : ""}`,
+      "frame-ancestors 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+    ].join("; "),
+  },
+  {
     key: "X-Content-Type-Options",
     value: "nosniff",
   },

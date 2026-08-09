@@ -7,7 +7,7 @@ export default function ResumeSection() {
     <section className="pb-10 pt-6" id="resume">
       {/* Section header */}
       <div className="mb-6 flex items-center justify-between gap-3">
-        <span className="neo-label">Resume</span>
+        <h1 className="neo-label">Resume</h1>
       </div>
 
       <div className="grid gap-6 items-start sm:grid-cols-2">

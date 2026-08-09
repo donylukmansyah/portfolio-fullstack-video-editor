@@ -148,7 +148,7 @@ export function AppSidebar({ adminEmail, unreadMessages = 0 }: AppSidebarProps) 
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild size="default">
-                  <Link href="/" target="_blank">
+                  <Link href="/" target="_blank" rel="noopener noreferrer">
                     <ExternalLink />
                     <span>View Public Site</span>
                   </Link>
@@ -200,7 +200,7 @@ export function AppSidebar({ adminEmail, unreadMessages = 0 }: AppSidebarProps) 
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/" target="_blank">
+                  <Link href="/" target="_blank" rel="noopener noreferrer">
                     <ExternalLink />
                     <span>View Public Site</span>
                   </Link>

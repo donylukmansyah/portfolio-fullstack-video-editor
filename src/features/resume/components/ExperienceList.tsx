@@ -8,7 +8,7 @@ export function ExperienceList() {
         <div className="flex h-8 w-8 items-center justify-center rounded-base border-2 border-border bg-main shadow-[2px_2px_0px_0px_var(--border)]">
           <Briefcase size={16} className="text-main-foreground" />
         </div>
-        <h3 className="text-lg font-heading text-foreground">Experience</h3>
+        <h2 className="text-lg font-heading text-foreground">Experience</h2>
       </div>
 
       <div className="flex flex-col gap-4">

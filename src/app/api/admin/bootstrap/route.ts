@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { timingSafeEqual } from "node:crypto";
 
 import prisma from "@/server/db/prisma";
 import { isAdminEmail } from "@/server/auth/guards";
@@ -33,7 +34,15 @@ export async function POST(request: Request) {
     );
   }
 
-  if (email !== configuredEmail || password !== configuredPassword || !isAdminEmail(email)) {
+  // Constant-time compare on the password so timing doesn't leak guess length.
+  const passwordMatches =
+    password.length === configuredPassword.length &&
+    timingSafeEqual(
+      new TextEncoder().encode(password),
+      new TextEncoder().encode(configuredPassword),
+    );
+
+  if (email !== configuredEmail || !passwordMatches || !isAdminEmail(email)) {
     return NextResponse.json({ error: "Invalid admin bootstrap credentials." }, { status: 403 });
   }
 
