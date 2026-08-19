@@ -75,10 +75,10 @@ model Verification {
 
 // Better Auth distributed rate limiting (DB-backed so it holds across serverless instances)
 model RateLimit {
-  id          String   @id @default(cuid())
-  key         String   @unique
+  id          String @id @default(cuid())
+  key         String @unique
   count       Int
-  lastRequest DateTime
+  lastRequest BigInt // epoch milliseconds (Better Auth rate-limiter writes this as a number)
 
   @@map("rateLimit")
 }

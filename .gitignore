@@ -26,6 +26,9 @@
 .codex-artifacts/
 *.pem
 
+# local scraper cache
+/scraper/
+
 # debug
 npm-debug.log*
 yarn-debug.log*

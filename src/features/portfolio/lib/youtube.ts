@@ -6,6 +6,8 @@
  * - https://youtu.be/VIDEO_ID
  * - https://www.youtube.com/watch?v=VIDEO_ID
  * - https://www.youtube.com/embed/VIDEO_ID
+ * - https://youtube.com/shorts/VIDEO_ID
+ * - https://www.youtube.com/shorts/VIDEO_ID
  */
 export function getYouTubeEmbedUrl(url: string): string {
   if (!url) return "";
@@ -22,6 +24,8 @@ export function getYouTubeEmbedUrl(url: string): string {
     }
   } else if (url.includes("youtube.com/embed/")) {
     videoId = url.split("youtube.com/embed/")[1]?.split("?")[0] ?? "";
+  } else if (url.includes("youtube.com/shorts/")) {
+    videoId = url.split("youtube.com/shorts/")[1]?.split("?")[0] ?? "";
   }
 
   return videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=1` : "";
