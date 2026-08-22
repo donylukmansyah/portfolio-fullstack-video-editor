@@ -44,9 +44,14 @@ export default function BackgroundDecorations({
 
       {/* Top-left: Arrow/Cursor pointing inward */}
       <svg
-        className={`absolute -left-12 top-[420px] w-[140px] sm:w-[200px] -rotate-12 ${
+        className={`ornament-entrance absolute -left-12 top-[420px] w-[140px] sm:w-[200px] ${
           homeVariant ? HOME_DESKTOP_POSITIONS.topLeftArrow : "sm:-left-8 sm:top-[15%]"
         }`}
+        style={{
+          "--ornament-rot-start": "-24deg",
+          "--ornament-rot-end": "-12deg",
+          animationDelay: "100ms",
+        } as React.CSSProperties}
         viewBox="0 0 200 220"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -61,9 +66,14 @@ export default function BackgroundDecorations({
 
       {/* Bottom-right: Starburst/Explosion */}
       <svg
-        className={`absolute -right-10 top-[850px] w-[180px] sm:w-[220px] rotate-6 ${
+        className={`ornament-entrance absolute -right-10 top-[850px] w-[180px] sm:w-[220px] ${
           homeVariant ? HOME_DESKTOP_POSITIONS.bottomRightStarburst : "sm:top-auto sm:bottom-[8%]"
         }`}
+        style={{
+          "--ornament-rot-start": "-10deg",
+          "--ornament-rot-end": "6deg",
+          animationDelay: "200ms",
+        } as React.CSSProperties}
         viewBox="0 0 200 200"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -78,9 +88,14 @@ export default function BackgroundDecorations({
 
       {/* Top-right: Small diamond */}
       <svg
-        className={`absolute right-[8%] top-[60px] w-[50px] sm:w-[65px] rotate-12 ${
+        className={`ornament-entrance absolute right-[8%] top-[60px] w-[50px] sm:w-[65px] ${
           homeVariant ? HOME_DESKTOP_POSITIONS.topRightDiamond : "sm:top-[6%]"
         }`}
+        style={{
+          "--ornament-rot-start": "0deg",
+          "--ornament-rot-end": "12deg",
+          animationDelay: "150ms",
+        } as React.CSSProperties}
         viewBox="0 0 60 60"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -100,9 +115,12 @@ export default function BackgroundDecorations({
 
       {/* Mid-left: Small circle (Desktop Only) */}
       <svg
-        className={`hidden sm:block absolute left-[5%] w-[45px] ${
+        className={`ornament-entrance hidden sm:block absolute left-[5%] w-[45px] ${
           homeVariant ? HOME_DESKTOP_POSITIONS.midLeftCircle : "top-[55%]"
         }`}
+        style={{
+          animationDelay: "250ms",
+        } as React.CSSProperties}
         viewBox="0 0 50 50"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -119,9 +137,14 @@ export default function BackgroundDecorations({
 
       {/* Bottom-left: Small cross/plus */}
       <svg
-        className={`absolute left-[3%] top-[700px] w-[40px] sm:w-[55px] -rotate-12 ${
+        className={`ornament-entrance absolute left-[3%] top-[700px] w-[40px] sm:w-[55px] ${
           homeVariant ? HOME_DESKTOP_POSITIONS.bottomLeftCross : "sm:top-auto sm:bottom-[20%]"
         }`}
+        style={{
+          "--ornament-rot-start": "-24deg",
+          "--ornament-rot-end": "-12deg",
+          animationDelay: "300ms",
+        } as React.CSSProperties}
         viewBox="0 0 60 60"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -136,9 +159,14 @@ export default function BackgroundDecorations({
 
       {/* Right mid: Zigzag/Lightning */}
       <svg
-        className={`absolute right-[3%] top-[300px] w-[40px] sm:w-[50px] rotate-6 ${
+        className={`ornament-entrance absolute right-[3%] top-[300px] w-[40px] sm:w-[50px] ${
           homeVariant ? HOME_DESKTOP_POSITIONS.rightMidZigzag : "sm:top-[40%]"
         }`}
+        style={{
+          "--ornament-rot-start": "-6deg",
+          "--ornament-rot-end": "6deg",
+          animationDelay: "220ms",
+        } as React.CSSProperties}
         viewBox="0 0 50 80"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -153,9 +181,14 @@ export default function BackgroundDecorations({
 
       {/* Top center-left: Small square */}
       <svg
-        className={`absolute left-[20%] top-[30px] w-[28px] sm:w-[35px] rotate-6 ${
+        className={`ornament-entrance absolute left-[20%] top-[30px] w-[28px] sm:w-[35px] ${
           homeVariant ? HOME_DESKTOP_POSITIONS.topCenterSquare : "sm:top-[3%]"
         }`}
+        style={{
+          "--ornament-rot-start": "0deg",
+          "--ornament-rot-end": "6deg",
+          animationDelay: "180ms",
+        } as React.CSSProperties}
         viewBox="0 0 40 40"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -174,9 +207,14 @@ export default function BackgroundDecorations({
 
       {/* Bottom center: Small triangle */}
       <svg
-        className={`absolute left-[35%] top-[950px] w-[40px] sm:w-[50px] -rotate-6 ${
+        className={`ornament-entrance absolute left-[35%] top-[950px] w-[40px] sm:w-[50px] ${
           homeVariant ? HOME_DESKTOP_POSITIONS.bottomCenterTriangle : "sm:top-auto sm:bottom-[5%]"
         }`}
+        style={{
+          "--ornament-rot-start": "12deg",
+          "--ornament-rot-end": "-6deg",
+          animationDelay: "320ms",
+        } as React.CSSProperties}
         viewBox="0 0 60 55"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
