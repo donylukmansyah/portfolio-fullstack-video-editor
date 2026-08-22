@@ -191,6 +191,7 @@
 @layer utilities {
   .neo-press {
     @apply inline-flex items-center justify-center rounded-base border-2 border-border
+           bg-secondary-background text-foreground
            shadow-[2px_2px_0px_0px_var(--border)]
            transition-[transform,box-shadow,background-color,color]
            duration-150 ease-[var(--ease-out-quart)];

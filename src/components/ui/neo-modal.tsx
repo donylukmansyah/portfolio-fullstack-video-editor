@@ -135,7 +135,7 @@ export function NeoModal({
           <button
             ref={closeButtonRef}
             onClick={onClose}
-            className="neo-icon h-8 w-8"
+            className="neo-icon h-8 w-8 shrink-0"
             aria-label="Close modal"
           >
             <X size={18} strokeWidth={2.5} />
@@ -143,7 +143,7 @@ export function NeoModal({
         </div>
 
         {title && (
-          <h3 className="text-xl sm:text-2xl text-foreground text-center mb-6 px-4 leading-tight">
+          <h3 className="text-xl sm:text-2xl text-foreground text-center mb-6 px-16 leading-tight truncate">
             {title}
           </h3>
         )}
