@@ -87,10 +87,10 @@ export default function Navbar({
     <>
       {/* ── Mobile-only: floating buttons (visible before scroll) ── */}
       <div
-        className={`fixed top-4 right-4 z-50 sm:hidden flex items-center gap-2 transition-[transform,opacity,visibility] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`fixed top-4 right-4 z-50 sm:hidden flex items-center gap-2 transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           scrolled
-            ? "opacity-0 -translate-y-8 pointer-events-none invisible"
-            : "opacity-100 translate-y-0 visible"
+            ? "-translate-y-8 opacity-0 pointer-events-none"
+            : "translate-y-0 opacity-100 pointer-events-auto"
         }`}
       >
         <button
@@ -116,14 +116,14 @@ export default function Navbar({
         </button>
       </div>
 
-      {/* ── Full navbar (Slides down smoothly from top on scroll) ── */}
+      {/* ── Full navbar (Slides down from top on scroll in mobile) ── */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 w-full px-4 pt-3 sm:px-6 transition-[transform,opacity,visibility] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
-          sm:translate-y-0 sm:opacity-100 sm:pointer-events-auto sm:visible
+        className={`fixed top-0 left-0 right-0 z-50 w-full px-4 pt-3 sm:px-6 transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]
+          sm:translate-y-0 sm:opacity-100 sm:pointer-events-auto
           ${
             scrolled
-              ? "translate-y-0 opacity-100 visible"
-              : "-translate-y-[120%] opacity-0 pointer-events-none invisible"
+              ? "translate-y-0 opacity-100 pointer-events-auto"
+              : "-translate-y-full opacity-0 pointer-events-none"
           }`}
       >
         <div className="mx-auto flex max-w-[860px] items-center justify-between gap-3 rounded-base border-2 border-border bg-secondary-background px-4 py-3 shadow-shadow">
