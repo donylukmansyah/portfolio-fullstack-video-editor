@@ -267,7 +267,7 @@
 @keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(28px);
   }
   to {
     opacity: 1;
@@ -278,7 +278,7 @@
 @keyframes hero-rise {
   from {
     opacity: 0;
-    transform: translate3d(0, 32px, 0);
+    transform: translate3d(0, 36px, 0);
   }
   to {
     opacity: 1;
@@ -334,28 +334,26 @@
 }
 
 .hero-entrance {
-  animation: hero-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  opacity: 0;
+  animation: hero-rise 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* Shared page-entrance for non-home sections (resume/contact).
    Subtle rise + fade; no per-card overload. Delay via --d inline var. */
 .entrance {
-  animation: hero-rise 0.55s var(--ease-out-quart) both;
+  animation: hero-rise 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: var(--d, 0ms);
 }
 
 .portfolio-card {
-  animation: fade-in-up 0.4s ease-out forwards;
-  opacity: 0;
+  animation: fade-in-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.portfolio-card:nth-child(1) { animation-delay: 0ms; }
-.portfolio-card:nth-child(2) { animation-delay: 80ms; }
-.portfolio-card:nth-child(3) { animation-delay: 160ms; }
-.portfolio-card:nth-child(4) { animation-delay: 240ms; }
-.portfolio-card:nth-child(5) { animation-delay: 320ms; }
-.portfolio-card:nth-child(6) { animation-delay: 400ms; }
+.portfolio-card:nth-child(1) { animation-delay: 60ms; }
+.portfolio-card:nth-child(2) { animation-delay: 130ms; }
+.portfolio-card:nth-child(3) { animation-delay: 200ms; }
+.portfolio-card:nth-child(4) { animation-delay: 270ms; }
+.portfolio-card:nth-child(5) { animation-delay: 340ms; }
+.portfolio-card:nth-child(6) { animation-delay: 410ms; }
 
 /* ─── Theme Toggle Circle Reveal (View Transitions API) ──── */
 
