@@ -71,7 +71,7 @@ export default function ShareModal({ isOpen, onClose, url, title }: ShareModalPr
           
           <button
             onClick={() => copy(url)}
-            className={`col-span-2 flex cursor-pointer items-center justify-center gap-2 rounded-base border-2 border-border p-3.5 text-[14px] font-bold shadow-[4px_4px_0px_0px_var(--border)] transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none active:translate-x-[4px] active:translate-y-[4px] active:shadow-none ${
+            className={`col-span-2 flex cursor-pointer items-center justify-center gap-2 rounded-base border-2 border-border p-3.5 text-[14px] font-bold shadow-[4px_4px_0px_0px_var(--border)] transition-[transform,box-shadow,background-color,color] duration-200 ease-[var(--ease-out-quart)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none active:translate-x-[4px] active:translate-y-[4px] active:shadow-none ${
               copied ? "bg-secondary-background text-foreground" : "bg-main text-main-foreground"
             }`}
           >

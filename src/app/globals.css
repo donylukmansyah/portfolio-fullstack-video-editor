@@ -159,7 +159,9 @@
   }
 
   .neo-btn {
-    @apply inline-flex items-center justify-center rounded-base border-2 border-border bg-secondary-background px-4 py-2 font-heading text-sm text-foreground shadow-shadow transition-all;
+    @apply inline-flex items-center justify-center rounded-base border-2 border-border bg-secondary-background px-4 py-2 font-heading text-sm text-foreground shadow-shadow
+           transition-[transform,box-shadow,background-color,color]
+           duration-200 ease-[var(--ease-out-quart)];
     @apply active:translate-x-boxShadowX active:translate-y-boxShadowY active:shadow-none;
   }
 
@@ -170,7 +172,9 @@
   }
 
   .neo-btn-main {
-    @apply inline-flex items-center justify-center rounded-base border-2 border-border bg-main px-4 py-2 font-heading text-sm text-main-foreground shadow-shadow transition-all;
+    @apply inline-flex items-center justify-center rounded-base border-2 border-border bg-main px-4 py-2 font-heading text-sm text-main-foreground shadow-shadow
+           transition-[transform,box-shadow,background-color,color]
+           duration-200 ease-[var(--ease-out-quart)];
     @apply active:translate-x-boxShadowX active:translate-y-boxShadowY active:shadow-none;
   }
 
@@ -194,14 +198,14 @@
            bg-secondary-background text-foreground
            shadow-[2px_2px_0px_0px_var(--border)]
            transition-[transform,box-shadow,background-color,color]
-           duration-150 ease-[var(--ease-out-quart)];
+           duration-200 ease-[var(--ease-out-quart)];
   }
 
   .neo-press-main {
     @apply inline-flex items-center justify-center rounded-base border-2 border-border bg-main
            text-main-foreground shadow-[2px_2px_0px_0px_var(--border)]
            transition-[transform,box-shadow,background-color,color]
-           duration-150 ease-[var(--ease-out-quart)];
+           duration-200 ease-[var(--ease-out-quart)];
   }
 
   /* Press (both hover pointers and touch active) */
@@ -225,7 +229,7 @@
            border-2 border-border bg-secondary-background text-foreground
            shadow-[2px_2px_0px_0px_var(--border)]
            transition-[transform,box-shadow,background-color,color]
-           duration-150 ease-[var(--ease-out-quart)];
+           duration-200 ease-[var(--ease-out-quart)];
   }
 
   .neo-icon:active {
@@ -243,7 +247,7 @@
            border-2 border-border bg-main text-main-foreground
            shadow-[2px_2px_0px_0px_var(--border)]
            transition-[transform,box-shadow,background-color,color]
-           duration-[150ms] ease-[var(--ease-out-quart)];
+           duration-200 ease-[var(--ease-out-quart)];
   }
 
   .neo-icon-main:active,

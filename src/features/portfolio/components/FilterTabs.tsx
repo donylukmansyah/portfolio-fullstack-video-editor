@@ -64,7 +64,7 @@ export default function FilterTabs({
           aria-selected={activeCategory === category}
           id={`filter-tab-${category.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
           className={cn(
-            "whitespace-nowrap flex-shrink-0 rounded-base border-2 border-border px-4 py-2 text-sm font-heading transition-all",
+            "whitespace-nowrap flex-shrink-0 rounded-base border-2 border-border px-4 py-2 text-sm font-heading transition-[transform,box-shadow,background-color,color] duration-200 ease-[var(--ease-out-quart)]",
             activeCategory === category
               ? "bg-main text-main-foreground shadow-shadow"
               : "bg-secondary-background text-foreground shadow-[2px_2px_0px_0px_var(--border)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none hover:bg-main/20 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"

@@ -87,7 +87,7 @@ export default function Navbar({
     <>
       {/* ── Mobile-only: floating buttons (visible before scroll) ── */}
       <div
-        className={`fixed top-4 right-4 z-50 sm:hidden flex items-center gap-2 transition-[opacity,transform,visibility] duration-300 ease-[var(--ease-out-quart)] ${
+        className={`fixed top-4 right-4 z-50 sm:hidden flex items-center gap-2 transition-[opacity,transform,visibility] duration-400 ease-[var(--ease-out-quart)] ${
           scrolled
             ? "opacity-0 -translate-y-4 pointer-events-none invisible"
             : "opacity-100 translate-y-0 visible"
@@ -118,7 +118,7 @@ export default function Navbar({
 
       {/* ── Full navbar ── */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 w-full px-4 pt-3 sm:px-6 transition-[opacity,transform,visibility] duration-300 ease-[var(--ease-out-quart)]
+        className={`fixed top-0 left-0 right-0 z-50 w-full px-4 pt-3 sm:px-6 transition-[opacity,transform,visibility] duration-400 ease-[var(--ease-out-quart)]
           sm:translate-y-0 sm:opacity-100 sm:pointer-events-auto sm:visible
           ${
             scrolled

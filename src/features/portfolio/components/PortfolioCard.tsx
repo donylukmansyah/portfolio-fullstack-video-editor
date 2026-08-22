@@ -13,7 +13,7 @@ export default function PortfolioCard({ item, index, onClick }: PortfolioCardPro
     <button
       type="button"
       onClick={() => onClick(item)}
-      className="portfolio-card w-full text-left group block overflow-hidden rounded-base border-2 border-border bg-secondary-background shadow-shadow transition-all hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none active:translate-x-boxShadowX active:translate-y-boxShadowY active:shadow-none"
+      className="portfolio-card w-full text-left group block overflow-hidden rounded-base border-2 border-border bg-secondary-background shadow-shadow transition-[transform,box-shadow,background-color,color] duration-200 ease-[var(--ease-out-quart)] hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none active:translate-x-boxShadowX active:translate-y-boxShadowY active:shadow-none"
       style={{ animationDelay: `${index * 80}ms` }}
       id={`portfolio-item-${item.id}`}
     >
